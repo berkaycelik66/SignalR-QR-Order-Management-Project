@@ -54,7 +54,7 @@
                                             <h6>
                                                 @product.Price.ToString("0.00") ₺
                                             </h6>
-                                            <a href="javascript:void(0)" onclick="showProductID(@product.ProductID, `@product.ProductName`)">
+                                            <a href="javascript:void(0)" onclick="showProductID(@product.ProductID, `@product.ProductName`, @product.Price)">
                                                 <i class="fa fa-shopping-cart text-white"></i>
                                             </a>
                                         </div>
@@ -81,16 +81,25 @@
     @await Component.InvokeAsync("_UILayoutScriptComponentPartial")
 
     <script>
-        function showProductID(productID, productName){
+        function showProductID(productID, productName, productPrice){
+            let basketJSON = {price: productPrice, 
+                count: 1, 
+                totalPrice: productPrice, 
+                productID: productID,
+                menuTableID: 4};
+                
             $.ajax({
-                type:'post',
-                data: {item:productID},
-                contentType: 'json',
+                type: 'POST',
+                url: '/Menu/AddBasket/',
+                data: JSON.stringify(basketJSON),
+                contentType: 'application/json',
                 success: function () {
-                    swal("Ürün Sepete Eklendi",  productName + " ürünü sepetinize başarılı bir şekilde eklendi.", "success", { button: "Tamam",});
-                }
+                    swal("Ürün Sepete Eklendi", productName + " ürünü sepetinize başarılı bir şekilde eklendi.", "success", { button: "Tamam", });
+                },
+                error: function () {
+                    swal("Hata", "Ürün sepete eklenirken bir hata oluştu.", "error", { button: "Tamam", });
+                },
             });
-
         }
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
