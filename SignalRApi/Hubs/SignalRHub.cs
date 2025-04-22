@@ -102,5 +102,11 @@ namespace SignalRApi.Hubs
             var unreadNotificationList = _notificationService.TGetAllNotificationByStatusFalse();
             await Clients.All.SendAsync("ReceiveUnreadNotificaitonList", unreadNotificationList);
         }
+
+        public async Task SendMenuTableList()
+        {
+            var menuTableList = _menuTableService.TGetListAll();
+            await Clients.All.SendAsync("ReceiveMenuTableList", menuTableList);
+        }
     }
 }
