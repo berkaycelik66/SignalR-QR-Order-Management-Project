@@ -1,4 +1,9 @@
-﻿<div class="main-header">
+﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<div class="main-header">
     <div class="logo-header">
         <a href="index.html" class="logo">
             SignalR Admin
@@ -10,6 +15,48 @@
     </div>
     <nav class="navbar navbar-header navbar-expand-lg">
         <div class="container-fluid">
+
+            <script type="text/javascript">
+                $(document).ready(() => {
+                    var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7202/signalrhub").build();
+
+                    $("#connstatus").text(connection.state);
+
+                    connection.start().then(() => {
+                        $("#connstatus").text(connection.state);
+
+                        setInterval(() => {
+                            connection.invoke("SendNotification");
+                        }, 500);
+                    }).catch((error) => {console.log(error)});
+
+
+                    connection.on("ReceiveUnreadNotificationCount",(value) => {
+                        $("#unreadNotificationCount").empty();
+                        if(value != 0)
+                        {
+                            $("#unreadNotificationCount").append(`<span class="notification">${value}</span>`);
+                        }
+                        $("#textUnreadNotificationCount").text(value);
+                    });
+
+                    connection.on("ReceiveUnreadNotificaitonList", (value) => {
+                        $("#unreadNotificationList").empty();
+
+                        value.forEach(item => {
+                            $("#unreadNotificationList").append(`<a href="#">
+                                    <div class="${item.type}"> <i class="${item.icon}"></i> </div>
+                                    <div class="notif-content">
+                                        <span class="block">
+                                            ${item.description}
+                                        </span>
+                                        <span class="time">${Math.floor((new Date() - new Date(item.date)) / 1000 / 60) < 60 ? Math.floor((new Date() - new Date(item.date)) / 1000 / 60) + ' dakika önce' : Math.floor((new Date() - new Date(item.date)) / 1000 / 60 / 60) + ' saat önce'}</span>
+                                    </div>
+                                </a>`);
+                        });
+                    });
+                });
+            </script>
 
             <form class="navbar-left navbar-form nav-search mr-md-3" action="">
                 <div class="input-group">
@@ -36,61 +83,24 @@
                 <li class="nav-item dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="la la-bell"></i>
-                        <span class="notification">3</span>
+                        <div id="unreadNotificationCount"></div>
                     </a>
                     <ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
                         <li>
-                            <div class="dropdown-title">4 Yeni Bildirim Var</div>
+                            <div class="dropdown-title"><span id="textUnreadNotificationCount"></span> Yeni Bildirim Var</div>
                         </li>
                         <li>
                             <div class="notif-center">
-                                <a href="#">
-                                    <div class="notif-icon notif-primary"> <i class="la la-user-plus"></i> </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            New user registered
-                                        </span>
-                                        <span class="time">5 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-icon notif-success"> <i class="la la-comment"></i> </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            Rahmad commented on Admin
-                                        </span>
-                                        <span class="time">12 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-img">
-                                        <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile2.jpg" alt="Img Profile">
-                                    </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            Reza send messages to you
-                                        </span>
-                                        <span class="time">12 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-icon notif-danger"> <i class="la la-heart"></i> </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            Farrah liked Admin
-                                        </span>
-                                        <span class="time">17 minutes ago</span>
-                                    </div>
-                                </a>
+                                <div id="unreadNotificationList"></div>
                             </div>
                         </li>
                         <li>
-                            <a class="see-all" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="la la-angle-right"></i> </a>
+                            <a class="see-all" href="/Notification/Index/"> <strong>Tüm Bildirimleri Gör</strong> <i class="la la-angle-right"></i> </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span>Admin</span></span> </a>
+                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span>Admin</span></a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                             <div class="user-box">
@@ -101,14 +111,16 @@
                                 </div>
                             </div>
                         </li>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="ti-user"></i> Menü</a>
-                        <a class="dropdown-item" href="#"></i> Ayarlar</a>
-                        <a class="dropdown-item" href="#"><i class="ti-email"></i> Rezervasyonlar</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Dashboard</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Çıkış Yap</a>
+                        <li>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="ti-user"></i> Menü</a>
+                            <a class="dropdown-item" href="#"></i> Ayarlar</a>
+                            <a class="dropdown-item" href="#"><i class="ti-email"></i> Rezervasyonlar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="ti-settings"></i> Dashboard</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Çıkış Yap</a>
+                        </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
