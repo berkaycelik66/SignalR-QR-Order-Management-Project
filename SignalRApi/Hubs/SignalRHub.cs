@@ -108,5 +108,10 @@ namespace SignalRApi.Hubs
             var menuTableList = _menuTableService.TGetListAll();
             await Clients.All.SendAsync("ReceiveMenuTableList", menuTableList);
         }
+
+        public async Task SendMessage(string user, string message)
+        {
+            await Clients.All.SendAsync("ReceiveMessage", user, message);
+        }
     }
 }
