@@ -9,10 +9,19 @@ connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
     var span = document.createElement("span");
     span.style.fontWeight = "bold";
+    if (user == document.getElementById("userInput").value) {
+        li.className = "d-flex justify-content-end";  // Sağ hizalama ve ortalama
+    } else {
+        li.className = "d-flex justify-content-start";  // Sola hizalama ve ortalama
+    }
     span.textContent = user;
     li.appendChild(span);
     li.innerHTML += `: ${message} - ${currentHour}:${currentMinute}`;
     document.getElementById("messageList").appendChild(li);
+});
+
+connection.on("ReceiveClientCount", (value) => {
+    $("#clientCount").text(value);
 });
 
 connection.start().then(function () {
