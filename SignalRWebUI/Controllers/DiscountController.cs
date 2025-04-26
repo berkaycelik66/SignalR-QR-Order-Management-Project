@@ -87,5 +87,33 @@ namespace SignalRWebUI.Controllers
 
             return View();
         }
+
+        public async Task<IActionResult> ChangeStatusToTrue(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var jsonData = JsonConvert.SerializeObject(id);
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PutAsync("https://localhost:7202/api/Discount/ChangeStatusToTrue", stringContent);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
+        public async Task<IActionResult> ChangeStatusToFalse(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var jsonData = JsonConvert.SerializeObject(id);
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PutAsync("https://localhost:7202/api/Discount/ChangeStatusToFalse", stringContent);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
     }
 }

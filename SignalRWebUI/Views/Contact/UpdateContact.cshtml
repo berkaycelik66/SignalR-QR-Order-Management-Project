@@ -30,13 +30,29 @@
 								<input type="email" class="form-control" asp-for="Mail" id="mail">
 							</div>
 							<div class="form-group">
+								<label for="footerTitle">Alt Başlık</label>
+								<textarea rows="5" class="form-control" asp-for="FooterTitle" id="footerTitle"></textarea>
+							</div>
+							<div class="form-group">
 								<label for="footerDescription">Açıklama</label>
 								<textarea rows="5" class="form-control" asp-for="FooterDescription" id="footerDescription"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="openDays">Açık Günler</label>
+								<textarea rows="5" class="form-control" asp-for="OpenDays" id="openDays"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="openDaysDescription">Açık Günler Açıklama</label>
+								<textarea rows="5" class="form-control" asp-for="OpenDaysDescription" id="openDaysDescription"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="openHours">Açık Saatler</label>
+								<textarea rows="5" class="form-control" asp-for="OpenHours" id="openHours"></textarea>
 							</div>
 						</div>
 
 						<div class="card-action">
-							<button class="btn btn-primary">Hakkımda Yazısını Güncelle</button>
+							<button class="btn btn-primary">İletişim Bilgi Yazısını Güncelle</button>
 						</div>
 					</div>
 				</form>
