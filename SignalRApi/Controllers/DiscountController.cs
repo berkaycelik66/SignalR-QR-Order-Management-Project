@@ -25,6 +25,14 @@ namespace SignalRApi.Controllers
             var value = _mapper.Map<List<ResultDiscountDto>>(_discountService.TGetListAll());
             return Ok(value);
         }
+
+        [HttpGet("GetListByStatusTrue")]
+        public IActionResult GetListByStatusTrue()
+        {
+            var value = _mapper.Map<List<ResultDiscountDto>>(_discountService.TGetListByStatusTrue());
+            return Ok(value);
+        }
+
         [HttpPost]
         public IActionResult CreateDiscount(CreateDiscountDto createDiscountDto)
         {
