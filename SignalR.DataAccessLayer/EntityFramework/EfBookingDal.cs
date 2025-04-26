@@ -15,5 +15,27 @@ namespace SignalR.DataAccessLayer.EntityFramework
         public EfBookingDal(SignalRContext context) : base(context)
         {
         }
+
+        public void BookingStatusApproved(int id)
+        {
+            using var context = new SignalRContext();
+            var value = context.Bookings.Find(id);
+            if(value != null)
+            {
+                value.Description = "Rezervasyon Onaylandı";
+                context.SaveChanges();
+            }
+        }
+
+        public void BookingStatusCanceled(int id)
+        {
+            using var context = new SignalRContext();
+            var value = context.Bookings.Find(id);
+            if (value != null)
+            {
+                value.Description = "Rezervasyon İptal Edildi";
+                context.SaveChanges();
+            }
+        }
     }
 }
