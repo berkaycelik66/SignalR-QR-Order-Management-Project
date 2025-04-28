@@ -81,5 +81,10 @@ namespace SignalR.BusinessLayer.Concrete
         {
             return _productDal.AverageProductPriceByHamburger();
         }
+
+        public decimal TTotalProductPrice()
+        {
+            return _productDal.TotalProductPrice();
+        }
     }
 }

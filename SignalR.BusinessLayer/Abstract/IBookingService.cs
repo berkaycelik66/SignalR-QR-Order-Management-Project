@@ -11,5 +11,7 @@ namespace SignalR.BusinessLayer.Abstract
     {
         void TBookingStatusApproved(int id);
         void TBookingStatusCanceled(int id);
+        int TTotalBookingCount();
+        int TMonthlyBookingCount();
     }
 }

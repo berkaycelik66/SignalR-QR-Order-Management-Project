@@ -26,6 +26,12 @@ namespace SignalRApi.Controllers
             return Ok(_menuTableService.TMenuTableCount());
         }
 
+        [HttpGet("OccupiedMenuTableCount")]
+        public IActionResult OccupiedMenuTableCount()
+        {
+            return Ok(_menuTableService.TOccupiedMenuTableCount());
+        }
+
         [HttpGet]
         public IActionResult MenuTableList()
         {

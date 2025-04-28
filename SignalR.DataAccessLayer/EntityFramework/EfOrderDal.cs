@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SignalR.DataAccessLayer.EntityFramework
 {
@@ -27,6 +26,18 @@ namespace SignalR.DataAccessLayer.EntityFramework
         {
             using var context = new SignalRContext();
             return context.Orders.OrderByDescending(x => x.OrderID).Take(1).Select(x => x.TotalPrice).FirstOrDefault();
+        }
+
+        public int MonthlyTotalOrderCount()
+        {
+            using var context = new SignalRContext();
+            return context.Orders.Where(x => x.Date.Month == DateTime.Now.Month).Count();
+        }
+
+        public decimal MonthlyTotalPrice()
+        {
+            using var context = new SignalRContext();
+            return context.Orders.Where(x => x.Date.Month == DateTime.Now.Month && x.Description == "Ödendi").Sum(x => x.TotalPrice);
         }
 
         public decimal TodayTotalPrice()

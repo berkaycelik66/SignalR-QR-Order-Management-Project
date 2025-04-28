@@ -86,8 +86,37 @@ namespace SignalRApi.Hubs
             var activeOrderCount = _orderService.TActiveOrderCount();
             await Clients.All.SendAsync("ReceiveActiveOrderCount", activeOrderCount);
 
-            var menuTableCount = _menuTableService.TMenuTableCount();
-            await Clients.All.SendAsync("ReceiveMenuTableCount", menuTableCount);
+            var totalMenuTableCount = _menuTableService.TMenuTableCount();
+            var occupiedMenuTableCount = _menuTableService.TOccupiedMenuTableCount();
+            await Clients.All.SendAsync("ReceiveMenuTableCount", totalMenuTableCount, occupiedMenuTableCount);
+
+            var avgProductPrice = _productService.TAverageProductPrice();
+            await Clients.All.SendAsync("ReceiveAverageProductPrice", avgProductPrice.ToString(".00") + " ₺");
+
+            var totalProductCount = _productService.TProductCount();
+            var productCountByCategoryDrink = _productService.TProductCountByCategoryNameDrink();
+            await Clients.All.SendAsync("ReceiveProductCount", totalProductCount, productCountByCategoryDrink);
+
+            var lastOrderPrice = _orderService.TLastOrderPrice();
+            await Clients.All.SendAsync("ReceiveLastOrderPrice", lastOrderPrice.ToString(".00") + " ₺");
+
+            var totalCategoryCount = _categoryService.TCategoryCount();
+            await Clients.All.SendAsync("ReceiveTotalCategoryCount", totalCategoryCount);
+
+            var totalBookingCount = _bookingService.TTotalBookingCount();
+            await Clients.All.SendAsync("ReceiveTotalBookingCount", totalBookingCount);
+
+            var monthlyBookingCount = _bookingService.TMonthlyBookingCount();
+            await Clients.All.SendAsync("ReceiveMonthlyBookingCount", monthlyBookingCount);
+
+            var monthlyTotalPrice = _orderService.TMonthlyTotalPrice();
+            await Clients.All.SendAsync("ReceiveMonthlyTotalPrice", monthlyTotalPrice);
+
+            var totalProductPrice = _productService.TTotalProductPrice();
+            await Clients.All.SendAsync("ReceiveTotalProductPrice", totalProductPrice.ToString(".00") + " ₺");
+
+            var monthlyTotalOrderCount = _orderService.TMonthlyTotalOrderCount();
+            await Clients.All.SendAsync("ReceiveMonthlyTotalOrderCount", monthlyTotalOrderCount);
         }
 
         public async Task SendBookingList()
@@ -109,6 +138,10 @@ namespace SignalRApi.Hubs
         {
             var menuTableList = _menuTableService.TGetListAll();
             await Clients.All.SendAsync("ReceiveMenuTableList", menuTableList);
+
+            var totalMenuTableCount = _menuTableService.TMenuTableCount();
+            var occupiedMenuTableCount = _menuTableService.TOccupiedMenuTableCount();
+            await Clients.All.SendAsync("ReceiveMenuTableCount", totalMenuTableCount, occupiedMenuTableCount);
         }
 
         public async Task SendMessage(string user, string message)

@@ -37,5 +37,17 @@ namespace SignalR.DataAccessLayer.EntityFramework
                 context.SaveChanges();
             }
         }
+
+        public int MonthlyBookingCount()
+        {
+            using var context = new SignalRContext();
+            return context.Bookings.Where(x => x.Date.Month == DateTime.UtcNow.Month).Count();
+        }
+
+        public int TotalBookingCount()
+        {
+            using var context = new SignalRContext();
+            return context.Bookings.Count();
+        }
     }
 }
