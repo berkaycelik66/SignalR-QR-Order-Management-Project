@@ -77,6 +77,7 @@ namespace SignalRApi.Controllers
             _productService.TAdd(value);
             return Ok("Ürün Bilgisi Eklendi");
         }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
@@ -91,6 +92,7 @@ namespace SignalRApi.Controllers
             var value = _productService.TGetByID(id);
             return Ok(_mapper.Map<GetProductDto>(value));
         }
+
         [HttpPut]
         public IActionResult UpdateProduct(UpdateProductDto updateProductDto)
         {

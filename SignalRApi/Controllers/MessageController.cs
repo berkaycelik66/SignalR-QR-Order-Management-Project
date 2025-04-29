@@ -50,6 +50,7 @@ namespace SignalRApi.Controllers
             var value = _messageService.TGetByID(id);
             return Ok(_mapper.Map<GetMessageDto>(value));
         }
+
         [HttpPut]
         public IActionResult UpdateMessage(UpdateMessageDto updateMessageDto)
         {

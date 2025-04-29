@@ -24,7 +24,7 @@ namespace SignalRApi.Controllers
         public IActionResult NotificationList()
         {
             var values = _notificationService.TGetListAll();
-            return Ok(values);
+            return Ok(_mapper.Map<List<ResultNotificationDto>>(values));
         }
 
         [HttpGet("NotificationCountByStatusFalse")]
@@ -59,7 +59,7 @@ namespace SignalRApi.Controllers
         public IActionResult GetNotification(int id)
         {
             var value = _notificationService.TGetByID(id);
-            return Ok(value);
+            return Ok(_mapper.Map<GetNotificationDto>(value));
         }
 
         [HttpPut]

@@ -25,6 +25,7 @@ namespace SignalRApi.Controllers
             var value = _mapper.Map<List<ResultTestimonialDto>>(_testoimonialService.TGetListAll());
             return Ok(value);
         }
+
         [HttpPost]
         public IActionResult CreateTestimonial(CreateTestimonialDto createTestimonialDto)
         {

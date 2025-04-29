@@ -36,12 +36,13 @@ namespace SignalRApi.Controllers
         public IActionResult MenuTableList()
         {
             var values = _menuTableService.TGetListAll();
-            return Ok(values);
+            return Ok(_mapper.Map<List<ResultMenuTableDto>>(values));
         }
 
         [HttpPost]
         public IActionResult CreateMenuTable(CreateMenuTableDto createMenuTableDto)
         {
+            createMenuTableDto.Status = false;
             var value = _mapper.Map<MenuTable>(createMenuTableDto);
             _menuTableService.TAdd(value);
             return Ok("Yeni Masa Eklendi");
@@ -51,7 +52,7 @@ namespace SignalRApi.Controllers
         public IActionResult GetMenuTableById(int id)
         {
             var value = _menuTableService.TGetByID(id);
-            return Ok(value);
+            return Ok(_mapper.Map<GetMenuTableDto>(value));
         }
 
         [HttpDelete("{id}")]

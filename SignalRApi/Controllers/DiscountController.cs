@@ -40,6 +40,7 @@ namespace SignalRApi.Controllers
             _discountService.TAdd(value);
             return Ok("İndirim Bilgisi Eklendi");
         }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteDiscount(int id)
         {

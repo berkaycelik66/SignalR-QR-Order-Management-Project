@@ -66,10 +66,10 @@
                     $("#totalMenuTableCountProgress").append(`
                     <div class="d-flex justify-content-between mb-1">
                         <span class="text-muted">Masa Doluluk Oranı</span>
-                        <span class="text-muted fw-bold"> ${progressPercentage}%</span>
+                        <span class="text-muted fw-bold"> ${progressPercentage}% - ${occupiedMenuTableCount}/${totalMenuTableCount}</span>
                     </div>
                     <div class="progress mb-2" style="height: 7px;">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: ${progressPercentage}%" aria-valuenow="${occupiedMenuTableCount}" aria-valuemin="0" aria-valuemax="${totalMenuTableCount}" data-toggle="tooltip" data-placement="top" title="${progressPercentage}%">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: ${progressPercentage}%" aria-valuenow="${occupiedMenuTableCount}" aria-valuemin="0" aria-valuemax="${totalMenuTableCount}" data-toggle="tooltip" data-placement="top" title="${occupiedMenuTableCount}">
                         </div>
                     </div>`);
 

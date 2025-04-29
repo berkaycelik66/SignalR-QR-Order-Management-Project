@@ -44,7 +44,7 @@ namespace SignalRApi.Controllers
         public IActionResult GetContact(int id)
         {
             var value = _contactService.TGetByID(id);
-            return Ok(value);
+            return Ok(_mapper.Map<GetContactDto>(value));
         }
         [HttpPut]
         public IActionResult UpdateContact(UpdateContactDto updateContactDto)

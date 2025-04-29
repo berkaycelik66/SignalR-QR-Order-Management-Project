@@ -47,7 +47,7 @@ namespace SignalRApi.Controllers
         public IActionResult GetSlider(int id)
         {
             var value = _sliderService.TGetByID(id);
-            return Ok(value);
+            return Ok(_mapper.Map<GetSliderDto>(value));
         }
         [HttpPut]
         public IActionResult UpdateSlider(UpdateSliderDto updateSliderDto)
