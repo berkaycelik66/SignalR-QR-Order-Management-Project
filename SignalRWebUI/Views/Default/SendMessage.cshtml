@@ -12,19 +12,19 @@
                 <div class="form_container">
                     <form method="post" asp-action="SendMessage" asp-controller="Default">
                         <div>
-                            <input type="text" class="form-control" placeholder="İsim" asp-for="Name"/>
+                            <input type="text" class="form-control" placeholder="İsim" asp-for="Name" required/>
                         </div>
                         <div>
-                            <input type="text" class="form-control" placeholder="Telefon" asp-for="Phone" />
+                            <input type="text" class="form-control" placeholder="Telefon" asp-for="Phone"/>
                         </div>
                         <div>
-                            <input type="email" class="form-control" placeholder="Mail" asp-for="Mail" />
+                            <input type="email" class="form-control" placeholder="Mail" asp-for="Mail" required/>
                         </div>
                         <div>
-                            <input type="text" class="form-control" placeholder="Konu" asp-for="Subject" />
+                            <input type="text" class="form-control" placeholder="Konu" asp-for="Subject" required/>
                         </div>
                         <div>
-                            <textarea asp-for="Content" rows="5" class="form-control" placeholder="Mesajınız"></textarea>
+                            <textarea asp-for="Content" rows="5" class="form-control" placeholder="Mesajınız" required></textarea>
                         </div>
                         
                         <div class="btn_box">

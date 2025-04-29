@@ -19,6 +19,14 @@
                         <div class="card-sub">
                             İletişim alanı ile ilgili işlemleri yapabilirsiniz. Tema bütünlüğü için sadece <strong>1 adet</strong> iletişim alanı oluşturmayı unutmayın.
                         </div>
+
+                        @if (Model.Count() > 1)
+                        {
+                            <div class="card-sub bg-danger text-white">
+                                <strong>1'den fazla iletişim alanınız mevcuttur.</strong>
+                            </div>
+                        }
+
                         <table class="table mt-3">
                             <thead>
                                 <tr>
@@ -34,7 +42,7 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.Location</td>
+                                        <td>@(item.Location != null && item.Location.Length > 30 ? item.Location.Substring(0, 30) + "..." : item.Location)</td>
                                         <td>@item.Phone</td>
                                         <td>@item.Mail</td>
                                         <td>@item.FooterDescription</td>

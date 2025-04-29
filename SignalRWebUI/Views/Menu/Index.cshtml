@@ -1,5 +1,4 @@
 ﻿@{
-    var ModelCategories = ViewBag.Categories as List<ResultCategoryDto>;
     var ModelProducts = ViewBag.Products as List<ResultProductWithCategoryDto>;
 }
 
@@ -22,16 +21,11 @@
         <div class="container">
             <div class="heading_container heading_center">
                 <h2>
-                    Ürünler
+                    Tüm Ürünler
                 </h2>
             </div>
-            <ul class="filters_menu">
-                <li class="active" data-filter="*">Hepsi</li>
-                @foreach (var category in ModelCategories!)
-                {
-                    <li data-filter=".@category.CategoryName!.ToLower()">@category.CategoryName</li>
-                }
-            </ul>
+
+            @await Component.InvokeAsync("_MenuCategoryFilterComponentPartial")
 
             <div class="filters-content">
                 <div class="row grid">
@@ -54,9 +48,16 @@
                                             <h6>
                                                 @product.Price.ToString("0.00") ₺
                                             </h6>
-                                            <a href="javascript:void(0)" onclick="showProductID(@product.ProductID, `@product.ProductName`, @product.Price)">
-                                                <i class="fa fa-shopping-cart text-white"></i>
-                                            </a>
+                                            @if(@product.ProductStatus == true)
+                                            {
+                                                <a href="javascript:void(0)" onclick="showProductID(@product.ProductID, `@product.ProductName`, @product.Price)">
+                                                    <i class="fa fa-shopping-cart text-white"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                 <h6 class="text-danger">Ürün Mevcut Değil</h6>
+                                            }
                                         </div>
                                     </div>
                                 </div>

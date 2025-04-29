@@ -18,6 +18,14 @@
                         <div class="card-sub">
                             Hakkımızda alanı ile ilgili işlemleri yapabilirsiniz. Tema bütünlüğü için sadece <strong>1 tane</strong> hakkımızda alanı oluşturmayı unutmayın.
                         </div>
+
+                        @if (Model.Count() > 1)
+                        {
+                            <div class="card-sub bg-danger text-white">
+                                <strong>1'den fazla hakkımızda alanınız mevcuttur.</strong>
+                            </div>
+                        }
+
                         <table class="table mt-3">
                             <thead>
                                 <tr>

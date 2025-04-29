@@ -18,6 +18,14 @@
                         <div class="card-sub">
                             Ana sayfada öne çıkan alan ile ilgili işlemleri aşağıdan gerçekleştirebilirsiniz. Sadece <strong>1 tane</strong> öne çıkan alan bilgisi oluşturun.
                         </div>
+
+                        @if (Model.Count() > 1)
+                        {
+                            <div class="card-sub bg-danger text-white">
+                                <strong>1'den fazla öne çıkan alan bilgisi mevcuttur.</strong>
+                            </div>
+                        }
+
                         <table class="table mt-3">
                             <thead>
                                 <tr>

@@ -1,0 +1,9 @@
+﻿@model List<ResultCategoryDto>
+
+<ul class="filters_menu">
+    <li class="active" data-filter="*">Tümü</li>
+    @foreach (var category in Model)
+    {
+        <li data-filter=".@category.CategoryName!.ToLower()">@category.CategoryName</li>
+    }
+</ul>

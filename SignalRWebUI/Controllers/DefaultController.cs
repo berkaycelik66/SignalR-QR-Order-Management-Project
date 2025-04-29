@@ -25,7 +25,7 @@ namespace SignalRWebUI.Controllers
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
                 var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData);
-                ViewBag.location = values.Select(x => x.Location).FirstOrDefault();
+                ViewBag.location = values!.Select(x => x.Location).FirstOrDefault();
             }
 
             return View();
