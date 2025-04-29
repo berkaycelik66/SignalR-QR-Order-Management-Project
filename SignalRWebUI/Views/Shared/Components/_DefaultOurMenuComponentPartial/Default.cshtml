@@ -7,7 +7,7 @@
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
-                Ürünler
+                Öne Çıkan Ürünler
             </h2>
         </div>
         <ul class="filters_menu">
@@ -20,7 +20,7 @@
 
         <div class="filters-content">
             <div class="row grid">
-                @foreach (var product in ModelProducts!)
+                @foreach (var product in ModelProducts!.Take(6))
                 {
                     <div class="col-sm-6 col-lg-4 all @product.CategoryName!.ToLower()">
                         <div class="box">
