@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.BookingDtos;
 using SignalRWebUI.Dtos.ContactDtos;
+using SignalRWebUI.Models;
 using System.Net.Http;
 using System.Text;
 
@@ -28,6 +30,7 @@ namespace SignalRWebUI.Controllers
                 var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData);
                 ViewBag.location = values!.Select(x => x.Location).FirstOrDefault();
             }
+
             return View();
         }
 
@@ -42,8 +45,22 @@ namespace SignalRWebUI.Controllers
             {
                 return RedirectToAction("Index", "Default");
             }
+            else
+            {
+                var errorContent = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponseModel>();
+                if(errorContent?.Errors != null)
+                {
+                    foreach(var error in errorContent.Errors)
+                    {
+                        foreach(var errorMessage in error.Value)
+                        {
+                            ModelState.AddModelError(error.Key, errorMessage);
+                        }
+                    }
+                }
+            }
 
-            return View();
+            return View(createBookingDto);
         }
     }
 }

@@ -25,15 +25,20 @@
                     <div class="form_container">
                         <form method="post">
                             <div>
+                                <span asp-validation-for="Name" class="text-danger"></span>
                                 <input type="text" class="form-control" placeholder="İsim Soyisim" asp-for="Name" />
+
                             </div>
                             <div>
+                                <span asp-validation-for="Phone" class="text-danger"></span>
                                 <input type="text" class="form-control" placeholder="Telefon Numarası" asp-for="Phone"/>
                             </div>
                             <div>
+                                <span asp-validation-for="Mail" class="text-danger"></span>
                                 <input type="email" class="form-control" placeholder="Mail" asp-for="Mail"/>
                             </div>
                             <div>
+                                <span asp-validation-for="PersonCount" class="text-danger"></span>
                                 <select class="form-control nice-select wide" asp-for="PersonCount">
                                     <option value="" disabled selected>
                                         Kişi Sayısı
