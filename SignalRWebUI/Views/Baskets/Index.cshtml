@@ -46,7 +46,16 @@
                             <th>Sil</th>
                         </tr>
                     </thead>
-
+                    @if(Model.Count() == 0)
+                    {
+                        <tbody class="align-middle">
+                            <tr>
+                                <td class="mt-2 alert alert-warning text-center" colspan="7">
+                                    Bu sepette henüz bir ürün bulunmamaktadır.
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
                     @foreach (var item in Model)
                     {
                         basketTotalPrice = Model.Sum(x => x.Price);
@@ -85,7 +94,7 @@
                 <div class="bg-light p-3 mb-5">
                     <div id="container" class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
-                            <h6>Ürün Tutarı</h6>
+                            <h6>Sepet Tutarı</h6>
                             <h6><span id="productPrice">@basketTotalPrice</span> TL</h6>
                         </div>
                         <div class="d-flex justify-content-between">
@@ -96,7 +105,7 @@
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Toplam Tutar</h5>
-                            <h5><span id="totalPrice">@((basketTotalPrice + serviceFee).ToString(".00"))</span> TL</h5>
+                            <h5><span id="totalPrice">@((basketTotalPrice + serviceFee).ToString("0.00"))</span> TL</h5>
                         </div>
                         <br />
                         <button id="btnChecked" class="btn btn-block btn-warning font-weight-bold my-3">Siparişi Tamamla</button>

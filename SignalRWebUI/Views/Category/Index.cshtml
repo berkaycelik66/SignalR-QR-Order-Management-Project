@@ -35,7 +35,17 @@
                                     <tr>
                                         <th>@count</th>
                                         <td>@item.CategoryName</td>
-                                        <td>@(item.CategoryStatus ? "Mevcut" : "Mevcut Değil")</td>
+
+                                        <td>
+                                            @if (item.CategoryStatus)
+                                            {
+                                                <button class="btn btn-primary btn-round btn-success text-black" disabled="disabled">Aktif</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-round btn-danger text-black" disabled="disabled">Pasif</button>
+                                            }
+                                        </td>
 
                                         <td><a href="/Category/DeleteCategory/@item.CategoryID" class="btn btn-outline-danger">Sil</a></td>
                                         <td><a href="/Category/UpdateCategory/@item.CategoryID" class="btn btn-outline-success">Güncelle</a></td>

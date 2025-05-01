@@ -11,5 +11,7 @@ namespace SignalR.BusinessLayer.Abstract
     {
         int TMenuTableCount();
         int TOccupiedMenuTableCount();
+        void TChangeMenuTableStatusToTrue(int id);
+        void TChangeMenuTableStatusToFalse(int id);
     }
 }

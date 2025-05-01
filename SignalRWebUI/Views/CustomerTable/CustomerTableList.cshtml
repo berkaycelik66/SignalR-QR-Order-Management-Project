@@ -1,0 +1,122 @@
+﻿@model List<ResultMenuTableDto>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<style>
+    .widget {
+        width: 300px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        color: white;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .widget-icon {
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 10px;
+    }
+
+        .widget-icon #full {
+            font-size: 18px;
+            color: #e74c3c !important;
+        }
+
+        .widget-icon #empty {
+            font-size: 18px;
+            color: #2ecc71 !important;
+        }
+
+    .widget-text {
+        margin-left: 20px;
+    }
+
+        .widget-text h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .widget-text p {
+            margin: 0;
+            font-size: 14px;
+        }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+@await Component.InvokeAsync("_UILayoutHeaderComponentPartial")
+
+<body class="sub_page">
+
+    @await Component.InvokeAsync("_MenuNavbarComponentPartial")
+
+    <br />
+    <br />
+
+
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="widget" style="@(item.Status ? "background-color:#e74c3c;" : "background-color:#2ecc71;")">
+                        @if (item.Status == true)
+                        {
+                            <div class="widget-icon">
+                                <i id="full" class="fas fa-users"></i>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="widget-icon">
+                                <a href="javascript:void(0);" onclick="saveMenuTableID(@item.MenuTableID,`@item.Name`)"><i id="empty" class="fas fa-cutlery"></i></a>
+                            </div>
+                        }
+
+                        <div class="widget-text">
+                            <h3>@item.Name</h3>
+                            @if (item.Status == true)
+                            {
+                                <p>Masa Dolu</p>
+                            }
+                            else
+                            {
+                                <p>Masa Boş</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- footer section -->
+    @await Component.InvokeAsync("_UILayoutFooterComponentPartial")
+    <!-- footer section -->
+    @await Component.InvokeAsync("_UILayoutScriptComponentPartial")
+
+    <script>
+        //Buradan MenuTableID depolanacak 
+        function saveMenuTableID(menuTableID, menuTableName) {
+            sessionStorage.setItem('MenuTableID', menuTableID);
+            sessionStorage.setItem('MenuTableName', menuTableName);
+            window.location.href = '/Menu/Index/'
+        }
+    </script>
+</body>
+
+</html>
+
+
+

@@ -1,4 +1,4 @@
-﻿@model SignalRWebUI.Dtos.CategoryDtos.UpdateCategoryDto
+﻿@model UpdateCategoryDto
 @{
     ViewData["Title"] = "UpdateCategory";
     Layout = "~/Views/AdminLayout/Index.cshtml";
@@ -19,11 +19,21 @@
 							<input type="hidden" asp-for="CategoryID"/>
 							<div class="form-group">
 								<label for="categoryName">Kategori Adı</label>
-								<input type="text" class="form-control" asp-for="CategoryName" id="categoryName" asp-f>
+								<input type="text" class="form-control" asp-for="CategoryName" id="categoryName" />
+							</div>
+
+							<div class="form-group">
+								<label for="categoryStatus">Kategori Durumu: </label>
+
+								<label class="form-check-label">
+									<input asp-for="CategoryStatus" class="form-check-input" type="checkbox" value="true" />
+									<span class="form-check-sign">Aktif</span>
+								</label>
 							</div>
 						</div>
 
 						<div class="card-action">
+							<a href="/Category/Index/" class="btn btn-danger">Geri Dön</a>
 							<button class="btn btn-primary">Kategoriyi Güncelle</button>
 						</div>
 					</div>

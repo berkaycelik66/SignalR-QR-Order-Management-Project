@@ -1,6 +1,5 @@
-﻿@{
-    var ModelProducts = ViewBag.Products as List<ResultProductWithCategoryDto>;
-}
+﻿@model List<ResultProductWithCategoryDto>
+
 
 @{
     Layout = null;
@@ -23,13 +22,14 @@
                 <h2>
                     Tüm Ürünler
                 </h2>
+                <div class="mt-2 alert alert-info text-center" id="tableName"></div>
             </div>
 
             @await Component.InvokeAsync("_MenuCategoryFilterComponentPartial")
 
             <div class="filters-content">
                 <div class="row grid">
-                    @foreach (var product in ModelProducts!)
+                    @foreach (var product in Model)
                     {
                         <div class="col-sm-6 col-lg-4 all @product.CategoryName!.ToLower()">
                             <div class="box">
@@ -48,15 +48,15 @@
                                             <h6>
                                                 @product.Price.ToString("0.00") ₺
                                             </h6>
-                                            @if(@product.ProductStatus == true)
+                                            @if (@product.ProductStatus == true)
                                             {
-                                                <a href="javascript:void(0)" onclick="showProductID(@product.ProductID, `@product.ProductName`, @product.Price)">
+                                                <a href="/Menu/Index/@product.ProductID" onclick="showProductID(@product.ProductID, `@product.ProductName`, @product.Price)">
                                                     <i class="fa fa-shopping-cart text-white"></i>
                                                 </a>
                                             }
                                             else
                                             {
-                                                 <h6 class="text-danger">Ürün Mevcut Değil</h6>
+                                                <h6 class="text-danger">Ürün Mevcut Değil</h6>
                                             }
                                         </div>
                                     </div>
@@ -68,8 +68,8 @@
             </div>
 
             <div class="btn-box">
-                <a href="/Baskets/Index/">
-                    Sepete Git
+                <a href="/Baskets/Index/@ViewBag.v">
+                    Sepete Git (@ViewBag.v)
                 </a>
             </div>
         </div>
@@ -83,24 +83,42 @@
 
     <script>
         function showProductID(productID, productName, productPrice){
-            let basketJSON = {price: productPrice, 
-                count: 1, 
-                totalPrice: productPrice, 
-                productID: productID,
-                menuTableID: 4};
-                
-            $.ajax({
-                type: 'POST',
-                url: '/Menu/AddBasket/',
-                data: JSON.stringify(basketJSON),
-                contentType: 'application/json',
-                success: function () {
-                    swal("Ürün Sepete Eklendi", productName + " ürünü sepetinize başarılı bir şekilde eklendi.", "success", { button: "Tamam", });
-                },
-                error: function () {
-                    swal("Hata", "Ürün sepete eklenirken bir hata oluştu.", "error", { button: "Tamam", });
-                },
-            });
+
+            if(sessionStorage.getItem('MenuTableID') == null)
+            {
+                swal("Hata", "Lütfen sipariş vermeden önce bir masa seçiniz!", "error", { button: "Tamam", }).then(function() {
+                    window.location.href = '/CustomerTable/CustomerTableList/';
+                });
+            }else{
+                let basketJSON = {
+                    price: productPrice,
+                    count: 1,
+                    totalPrice: productPrice,
+                    productID: productID,
+                    menuTableID: sessionStorage.getItem('MenuTableID')
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Menu/AddBasket/',
+                    data: JSON.stringify(basketJSON),
+                    contentType: 'application/json',
+                    success: function () {
+                        swal("Ürün Sepete Eklendi", productName + " ürünü sepetinize başarılı bir şekilde eklendi.", "success", { button: "Tamam", });
+                    },
+                    error: function () {
+                        swal("Hata", "Ürün sepete eklenirken bir hata oluştu.", "error", { button: "Tamam", });
+                    },
+                });
+            }
+        }
+
+        window.onload = function getTableName(){
+            if(sessionStorage.getItem('MenuTableID') != null) {
+                $("#tableName").text("Masa Adı: " + sessionStorage.getItem('MenuTableName')).show();
+            } else {
+                $("#tableName").hide();
+            }
         }
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

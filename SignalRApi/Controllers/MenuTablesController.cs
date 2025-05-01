@@ -70,5 +70,19 @@ namespace SignalRApi.Controllers
             _menuTableService.TUpdate(value);
             return Ok("Masa Güncellendi");
         }
+
+        [HttpPut("ChangeMenuTableStatusToTrue")]
+        public IActionResult ChangeMenuTableStatusToTrue([FromBody] int id)
+        {
+            _menuTableService.TChangeMenuTableStatusToTrue(id);
+            return Ok("Masa Durumu True Değerine Güncellendi");
+        }
+
+        [HttpPut("ChangeMenuTableStatusToFalse")]
+        public IActionResult ChangeMenuTableStatusToFalse([FromBody] int id)
+        {
+            _menuTableService.TChangeMenuTableStatusToFalse(id);
+            return Ok("Masa Durumu False Değerine Güncellendi");
+        }
     }
 }
