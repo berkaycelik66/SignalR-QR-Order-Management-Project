@@ -9,24 +9,30 @@
         <div class="row">
             <div class="col-md-12">
                 <form method="post">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label for="receiverMail">QR Kod Metin Verisi</label>
-                                <input type="text" name="value" class="form-control" />
+                    <div class="card-body px-5">
+                        <label for="menuTables">QR Kod Metin Verisi</label>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <select name="Value" class="form-control">
+                                    @foreach (var item in (List<SelectListItem>)ViewBag.MenuTables)
+                                    {
+                                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                                    }
+                                </select>
                             </div>
-
-                            <div class="card-action px-2">
+                            <div class="col-md-3">
                                 <button class="btn btn-warning">QR Kod Oluştur</button>
                             </div>
                         </div>
+                        <div class="row p-3">
+                            @if (ViewBag.QrCodeImage != null)
+                            {
+                                <img src="@ViewBag.QrCodeImage" alt="" style="width: 400px; height: 400px;" />
+                            }
+                        </div>
                     </div>
                 </form>
-                <br />
-                @if (ViewBag.QrCodeImage != null)
-                {
-                    <img src="@ViewBag.QrCodeImage" alt="" style="width: 400px; height: 400px;" />
-                }
+
             </div>
         </div>
     </div>

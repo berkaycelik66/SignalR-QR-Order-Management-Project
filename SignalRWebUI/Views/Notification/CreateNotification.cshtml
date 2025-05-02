@@ -18,13 +18,13 @@
 
 						<div class="card-body">
 							<div class="form-group">
-								<label for="type">Bildirim Türü</label>
-								<input type="text" class="form-control" asp-for="Type" id="type">
+								<label for="notificationType">Bildirim Türü</label>
+								@Html.DropDownListFor(x => x.Type, (List<SelectListItem>)ViewBag.NotificationType, new { @class = "form-control" })
 							</div>
 
 							<div class="form-group">
-								<label for="icon">Bildirim Icon</label>
-								<input type="text" class="form-control" asp-for="Icon" id="icon">
+								<label for="notificationIcon">Bildirim İkonu</label>
+								@Html.DropDownListFor(x => x.Icon, (List<SelectListItem>)ViewBag.NotificationIcon, new { @class = "form-control" })
 							</div>
 
 							<div class="form-group">
