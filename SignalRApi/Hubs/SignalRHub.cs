@@ -94,8 +94,7 @@ namespace SignalRApi.Hubs
             await Clients.All.SendAsync("ReceiveAverageProductPrice", avgProductPrice.ToString(".00") + " ₺");
 
             var totalProductCount = _productService.TProductCount();
-            var productCountByCategoryDrink = _productService.TProductCountByCategoryNameDrink();
-            await Clients.All.SendAsync("ReceiveProductCount", totalProductCount, productCountByCategoryDrink);
+            await Clients.All.SendAsync("ReceiveTotalProductCount", totalProductCount);
 
             var lastOrderPrice = _orderService.TLastOrderPrice();
             await Clients.All.SendAsync("ReceiveLastOrderPrice", lastOrderPrice.ToString(".00") + " ₺");

@@ -22,6 +22,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">Ürün</th>
                                     <th scope="col">Ürün Adı</th>
                                     <th scope="col">Fiyat</th>
                                     <th scope="col">Kategori</th>
@@ -36,17 +37,18 @@
                                     count++;
                                     <tr>
                                         <th>@count</th>
+                                        <td><img src="@item.ImageUrl" width="65" height="65" /></td>
                                         <td>@item.ProductName</td>
                                         <td>@item.Price</td>
                                         <td>@item.CategoryName</td>
                                         <td>
                                             @if (item.ProductStatus)
                                             {
-                                                <span style="color:green;">Mevcut</span>
+                                                <button class="btn btn-primary btn-round btn-success" disabled="disabled">Mevcut</button>
                                             }
                                             else
                                             {
-                                                <span style="color:red;">Mevcut Değil</span>
+                                                <button class="btn btn-round btn-danger" disabled="disabled">Mevcut Değil</button>
                                             }
                                         </td>
                                         <td><a href="/Product/DeleteProduct/@item.ProductID" class="btn btn-outline-danger">Sil</a></td>

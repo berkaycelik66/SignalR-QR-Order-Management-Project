@@ -24,6 +24,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Ürün</th>
+                                    <th scope="col">Başlık</th>
                                     <th scope="col">İndirim Oranı</th>
                                     <th scope="col">Durum</th>
                                     <th scope="col">Durum Değiştir</th>
@@ -37,26 +38,27 @@
                                     count++;
                                     <tr>
                                         <th>@count</th>
+                                        <td><img src="@item.ImageUrl" width="65" height="65" /></td>
                                         <td>@item.Title</td>
-                                        <td>@item.Amount</td>
+                                        <td>%@item.Amount</td>
                                         <td>
                                             @if (item.Status)
                                             {
-                                                <span style="color:green;">Aktif</span>
+                                                <button class="btn btn-primary btn-round btn-success" disabled="disabled">Aktif</button>
                                             }
                                             else
                                             {
-                                                <span style="color:red;">Pasif</span>
+                                                <button class="btn btn-round btn-danger" disabled="disabled">Pasif</button>
                                             }
                                         </td>
                                         <td>
                                             @if (item.Status)
                                             {
-                                                <a href="/Discount/ChangeStatusToFalse/@item.DiscountID" class="btn btn-outline-dark">Pasif Yap</a>
+                                                <a href="/Discount/ChangeStatusToFalse/@item.DiscountID" class="btn btn-outline-warning">Pasif Yap</a>
                                             }
                                             else
                                             {
-                                                <a href="/Discount/ChangeStatusToTrue/@item.DiscountID" class="btn btn-outline-warning">Aktif Yap</a>
+                                                <a href="/Discount/ChangeStatusToTrue/@item.DiscountID" class="btn btn-outline-primary">Aktif Yap</a>
                                             }
                                         </td>
 

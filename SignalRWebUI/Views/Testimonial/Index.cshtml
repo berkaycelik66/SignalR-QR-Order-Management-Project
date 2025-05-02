@@ -23,7 +23,10 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">Görsel</th>
                                     <th scope="col">İsim</th>
+                                    <th scope="col">Unvan</th>
+                                    <th scope="col">Yorum</th>
                                     <th scope="col">Durum</th>
                                     <th scope="col">Sil</th>
                                     <th scope="col">Güncelle</th>
@@ -35,8 +38,20 @@
                                     count++;
                                     <tr>
                                         <th>@count</th>
+                                        <td><img src="@item.ImageUrl" width="65" height="65" class="rounded" /></td>
                                         <td>@item.Name</td>
-                                        <td>@(item.Status ? "Yayında" : "Yayında Değil")</td>
+                                        <td>@item.Title</td>
+                                        <td>@item.Comment</td>
+                                        <td>
+                                            @if(item.Status)
+                                            {
+                                                <button class="btn btn-primary btn-round btn-success" disabled="disabled">Yayında</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-round btn-danger" disabled="disabled">Yayında Değil</button>
+                                            }
+                                        </td>
 
                                         <td><a href="/Testimonial/DeleteTestimonial/@item.TestimonialID" class="btn btn-outline-danger">Sil</a></td>
                                         <td><a href="/Testimonial/UpdateTestimonial/@item.TestimonialID" class="btn btn-outline-success">Güncelle</a></td>
