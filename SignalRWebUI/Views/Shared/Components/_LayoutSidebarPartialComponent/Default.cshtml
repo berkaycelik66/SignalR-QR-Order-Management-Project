@@ -1,35 +1,5 @@
 ﻿<div class="sidebar">
     <div class="scrollbar-inner sidebar-wrapper">
-        <div class="user">
-            <div class="photo">
-                <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg">
-            </div>
-            <div class="info">
-                <a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-                    <span>
-                        Yönetim Paneli
-                        <span class="user-level">Admin</span>
-                        <span class="caret"></span>
-                    </span>
-                </a>
-                <div class="clearfix"></div>
-
-                <div class="collapse in" id="collapseExample" aria-expanded="true" style="">
-                    <ul class="nav">
-                        <li>
-                            <a href="/Register/Index/">
-                                <span class="link-collapse">Yeni Kayıt</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/Login/Index/">
-                                <span class="link-collapse">Giriş Yap</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <ul class="nav">
             <li class="nav-item">
                 <a href="/Default/Index/">
@@ -38,63 +8,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/Menu/Index/">
-                    <i class="la la-book"></i>
-                    <p>Menüyü Gör</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Category/Index/">
-                    <i class="la la-th-large"></i>
-                    <p>Kategoriler</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Product/Index/">
-                    <i class="la la-cutlery"></i>
-                    <p>Ürünler</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Booking/Index/">
-                    <i class="la la-calendar"></i>
-                    <p>Rezervasyonlar</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/About/Index/">
-                    <i class="la la-info-circle"></i>
-                    <p>Hakkımızda</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Discount/Index/">
-                    <i class="la la-bolt"></i>
-                    <p>İndirimler</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Contact/Index/">
-                    <i class="la la-phone-square"></i>
-                    <p>İletişim</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Slider/Index/">
-                    <i class="la la-bookmark"></i>
-                    <p>Öne Çıkanlar</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Testimonial/Index/">
-                    <i class="la la-thumbs-up"></i>
-                    <p>Referanslar</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/SocialMedia/Index/">
-                    <i class="la la-slack"></i>
-                    <p>Sosyal Medya</p>
+                <a href="/MenuTable/TableListByStatus/">
+                    <i class="la la-delicious"></i>
+                    <p>Masa Durumları</p>
                 </a>
             </li>
             <li class="nav-item">
@@ -109,52 +25,137 @@
                     <p>İstatistikler</p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="/MenuTable/Index/">
-                    <i class="la la-table"></i>
-                    <p>Masalar</p>
+        </ul>
+
+        <div class="dropdown-divider"></div>
+
+        <div class="user">
+            <div class="info">
+                <a class="" data-toggle="collapse" href="#homePageOperations" aria-expanded="true">
+                    <span>
+                        Ana Sayfa İşlemleri
+                        <span class="caret"></span>
+                    </span>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="/MenuTable/TableListByStatus/">
-                    <i class="la la-delicious"></i>
-                    <p>Masa Durumları</p>
+                <div class="clearfix"></div>
+
+                <div class="collapse in show" id="homePageOperations" aria-expanded="true" style="">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a href="/Slider/Index/">
+                                <i class="la la-bookmark"></i>
+                                <p>Öne Çıkanlar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Discount/Index/">
+                                <i class="la la-bolt"></i>
+                                <p>İndirimler</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/About/Index/">
+                                <i class="la la-info-circle"></i>
+                                <p>Hakkımızda</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Testimonial/Index/">
+                                <i class="la la-thumbs-up"></i>
+                                <p>Referanslar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Contact/Index/">
+                                <i class="la la-phone-square"></i>
+                                <p>İletişim</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Menu/Index/">
+                                <i class="la la-book"></i>
+                                <p>Menüyü Gör</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="user">
+
+            <div class="info">
+                <a class="" data-toggle="collapse" href="#adminOperations" aria-expanded="true" >
+                    <span>
+                        Admin İşlemleri
+                        <span class="caret"></span>
+                    </span>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Message/Index/">
-                    <i class="la la-comments"></i>
-                    <p>Mesaj Sayfası</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Notification/Index/">
-                    <i class="la la-inbox"></i>
-                    <p>Bildirimler</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Mail/Index/">
-                    <i class="la la-envelope"></i>
-                    <p>Mail İşlemleri</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/QRCode/Index/">
-                    <i class="la la-qrcode"></i>
-                    <p>Qr Kod Oluştur</p>
-                </a>
-            </li>
+                <div class="clearfix"></div>
+
+                <div class="collapse in show" id="adminOperations" aria-expanded="true" style="">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a href="/Category/Index/">
+                                <i class="la la-th-large"></i>
+                                <p>Kategoriler</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Product/Index/">
+                                <i class="la la-cutlery"></i>
+                                <p>Ürünler</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Booking/Index/">
+                                <i class="la la-calendar"></i>
+                                <p>Rezervasyonlar</p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="/MenuTable/Index/">
+                                <i class="la la-table"></i>
+                                <p>Masalar</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Message/Index/">
+                                <i class="la la-comments"></i>
+                                <p>Mesaj Sayfası</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Notification/Index/">
+                                <i class="la la-inbox"></i>
+                                <p>Bildirimler</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Mail/Index/">
+                                <i class="la la-envelope"></i>
+                                <p>Mail İşlemleri</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/QRCode/Index/">
+                                <i class="la la-qrcode"></i>
+                                <p>Qr Kod Oluştur</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav">
             <li class="nav-item">
                 <a href="/Setting/Index/">
                     <i class="la la-gear"></i>
                     <p>Ayarlar</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/Login/LogOut/">
-                    <i class="la la-sign-out"></i>
-                    <p>Çıkış Yap</p>
                 </a>
             </li>
             <li class="nav-item">
