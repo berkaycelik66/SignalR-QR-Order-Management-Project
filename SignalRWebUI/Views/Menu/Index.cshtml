@@ -50,7 +50,19 @@
                                             </h6>
                                             @if (@product.ProductStatus == true)
                                             {
-                                                <a href="/Menu/Index/@product.ProductID" onclick="showProductID(@product.ProductID, `@product.ProductName`, @product.Price)">
+                                                <div style="display: flex; align-items: center; justify-content: flex-end;">
+                                                <a href="javascript:void(0);" onclick="adjustCount(@product.ProductID, -1)" style="width:20px; height: 20px;">
+                                                    <i class="fa fa-minus text-white"></i>
+                                                </a>
+
+                                                    <span id="productCount-@product.ProductID" class="bg-white text-dark px-3" style=" border-radius: 5px;">1</span>
+
+                                                <a href="javascript:void(0);" onclick="adjustCount(@product.ProductID, 1)" style="width:20px; height: 20px;">
+                                                    <i class="fa fa-plus text-white"></i>
+                                                </a>
+                                                </div>
+
+                                                <a href="javascript:void(0);" onclick="showProductID(@product.ProductID, `@product.ProductName`, @product.Price)">
                                                     <i class="fa fa-shopping-cart text-white"></i>
                                                 </a>
                                             }
@@ -90,10 +102,12 @@
                     window.location.href = '/CustomerTable/CustomerTableList/';
                 });
             }else{
+                var countElement = parseInt(document.getElementById(`productCount-${productID}`).innerText);
+
                 let basketJSON = {
                     price: productPrice,
-                    count: 1,
-                    totalPrice: productPrice,
+                    count: countElement,
+                    totalPrice: productPrice * countElement,
                     productID: productID,
                     menuTableID: sessionStorage.getItem('MenuTableID')
                 };
@@ -104,13 +118,26 @@
                     data: JSON.stringify(basketJSON),
                     contentType: 'application/json',
                     success: function () {
-                        swal("Ürün Sepete Eklendi", productName + " ürünü sepetinize başarılı bir şekilde eklendi.", "success", { button: "Tamam", });
+                        swal("Ürün Sepete Eklendi", countElement + " adet " + productName + " ürünü sepetinize başarılı bir şekilde eklendi.", "success", { button: "Tamam", });
                     },
                     error: function () {
                         swal("Hata", "Ürün sepete eklenirken bir hata oluştu.", "error", { button: "Tamam", });
                     },
                 });
             }
+        }
+
+        function adjustCount(productID, adjustment) {
+            var countElement = document.getElementById('productCount-' + productID);
+            var currentCount = parseInt(countElement.innerText);
+
+            var newCount = currentCount + adjustment;
+
+            if (newCount < 1) {
+                newCount = 1;
+            }
+
+            countElement.innerText = newCount;
         }
 
         window.onload = function getTableName(){
