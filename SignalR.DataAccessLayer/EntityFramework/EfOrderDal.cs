@@ -40,6 +40,18 @@ namespace SignalR.DataAccessLayer.EntityFramework
             return context.Orders.Where(x => x.Date.Month == DateTime.Now.Month && x.Description == "Ödendi").Sum(x => x.TotalPrice);
         }
 
+        public void SumTotalOrderDetailById(int id)
+        {
+            using var context = new SignalRContext();
+
+            var order = context.Orders.Find(id);
+            if (order != null)
+            {
+                order.TotalPrice = context.OrderDetails.Where(x => x.OrderID == id).Sum(x => x.TotalPrice);
+                context.SaveChanges();
+            }
+        }
+
         public decimal TodayTotalPrice()
         {
             using var context = new SignalRContext();

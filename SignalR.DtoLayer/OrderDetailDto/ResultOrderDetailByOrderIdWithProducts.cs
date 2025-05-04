@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SignalR.EntityLayer.Entities
+namespace SignalR.DtoLayer.OrderDetailDto
 {
-    public class OrderDetail
+    public class ResultOrderDetailByOrderIdWithProducts
     {
         public int OrderDetailID { get; set; }
         public int ProductID { get; set; }
@@ -15,9 +15,7 @@ namespace SignalR.EntityLayer.Entities
         public decimal TotalPrice { get; set; }
         public int OrderID { get; set; }
         public bool DeliveryStatus { get; set; }
-
-
-        public Product? Product { get; set; }
-        public Order? Order { get; set; }
+        public string? ProductName { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

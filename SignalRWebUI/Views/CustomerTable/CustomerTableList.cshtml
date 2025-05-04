@@ -109,11 +109,32 @@
     <script>
         //Buradan MenuTableID depolanacak 
         function saveMenuTableID(menuTableID, menuTableName) {
-            sessionStorage.setItem('MenuTableID', menuTableID);
-            sessionStorage.setItem('MenuTableName', menuTableName);
-            window.location.href = '/Menu/Index/'
+            // sessionStorage.setItem('MenuTableID', menuTableID);
+            // sessionStorage.setItem('MenuTableName', menuTableName);
+            // window.location.href = '/Menu/Index/'
+            
+            //Burada POST ile yeni bir Order oluşacak ve Dönen ID Session'a kayıt olacak.
+            let orderJSON = {
+                description: "2",
+                menuTableID: menuTableID
+            };
+            console.log(orderJSON);
+
+            $.ajax({
+                type: 'POST',
+                url: '/CustomerTable/CreateOrder/',
+                data: JSON.stringify(orderJSON),
+                contentType: 'application/json',
+                success: function () {
+                    window.location.href = '/Menu/Index';
+                },
+                error: function () {
+                    swal("Hata","" , "error", { button: "Tamam", });
+                },
+            });
         }
     </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 
 </html>

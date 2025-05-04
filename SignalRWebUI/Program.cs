@@ -12,10 +12,20 @@ var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticat
 builder.Services.AddDbContext<SignalRContext>();
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<SignalRContext>();
 builder.Services.AddHttpClient();
+
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60);  // Oturum süresi
+    options.Cookie.HttpOnly = true; // Güvenlik önlemi
+    options.Cookie.IsEssential = true; // Çerez ayarlarý
+});
+
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
 });
+
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -42,6 +52,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 app.UseAuthentication();

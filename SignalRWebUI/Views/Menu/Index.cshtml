@@ -51,18 +51,18 @@
                                             @if (@product.ProductStatus == true)
                                             {
                                                 <div style="display: flex; align-items: center; justify-content: flex-end;">
-                                                <a href="javascript:void(0);" onclick="adjustCount(@product.ProductID, -1)" style="width:20px; height: 20px;">
-                                                    <i class="fa fa-minus text-white"></i>
-                                                </a>
+                                                    <a href="javascript:void(0);" onclick="adjustCount(@product.ProductID, -1)" style="width:20px; height: 20px;">
+                                                        <i class="fa fa-minus text-white"></i>
+                                                    </a>
 
                                                     <span id="productCount-@product.ProductID" class="bg-white text-dark px-3" style=" border-radius: 5px;">1</span>
 
-                                                <a href="javascript:void(0);" onclick="adjustCount(@product.ProductID, 1)" style="width:20px; height: 20px;">
-                                                    <i class="fa fa-plus text-white"></i>
-                                                </a>
+                                                    <a href="javascript:void(0);" onclick="adjustCount(@product.ProductID, 1)" style="width:20px; height: 20px;">
+                                                        <i class="fa fa-plus text-white"></i>
+                                                    </a>
                                                 </div>
 
-                                                <a href="javascript:void(0);" onclick="showProductID(@product.ProductID, `@product.ProductName`, @product.Price)">
+                                                <a href="javascript:void(0);" onclick="addBasket(@product.ProductID, `@product.ProductName`, @product.Price)">
                                                     <i class="fa fa-shopping-cart text-white"></i>
                                                 </a>
                                             }
@@ -80,7 +80,7 @@
             </div>
 
             <div class="btn-box">
-                <a href="/Baskets/Index/@ViewBag.v">
+                <a href="/Baskets/Index/">
                     Sepete Git (@ViewBag.v)
                 </a>
             </div>
@@ -94,37 +94,30 @@
     @await Component.InvokeAsync("_UILayoutScriptComponentPartial")
 
     <script>
-        function showProductID(productID, productName, productPrice){
+        function addBasket(productID, productName, productPrice){
+            var countElement = parseInt(document.getElementById(`productCount-${productID}`).innerText);
 
-            if(sessionStorage.getItem('MenuTableID') == null)
-            {
-                swal("Hata", "Lütfen sipariş vermeden önce bir masa seçiniz!", "error", { button: "Tamam", }).then(function() {
-                    window.location.href = '/CustomerTable/CustomerTableList/';
-                });
-            }else{
-                var countElement = parseInt(document.getElementById(`productCount-${productID}`).innerText);
+            let orderDetailJSON = {
+                productID: productID,
+                count: countElement,
+                unitPrice: productPrice,
+                totalPrice: productPrice * countElement,
+                deliveryStatus: false
+            };
+            console.log(orderDetailJSON);
 
-                let basketJSON = {
-                    price: productPrice,
-                    count: countElement,
-                    totalPrice: productPrice * countElement,
-                    productID: productID,
-                    menuTableID: sessionStorage.getItem('MenuTableID')
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/Menu/AddBasket/',
-                    data: JSON.stringify(basketJSON),
-                    contentType: 'application/json',
-                    success: function () {
-                        swal("Ürün Sepete Eklendi", countElement + " adet " + productName + " ürünü sepetinize başarılı bir şekilde eklendi.", "success", { button: "Tamam", });
-                    },
-                    error: function () {
-                        swal("Hata", "Ürün sepete eklenirken bir hata oluştu.", "error", { button: "Tamam", });
-                    },
-                });
-            }
+            $.ajax({
+                type: 'POST',
+                url: '/Menu/AddBasket/',
+                data: JSON.stringify(orderDetailJSON),
+                contentType: 'application/json',
+                success: function () {
+                    swal("Ürün Sepete Eklendi", countElement + " adet " + productName + " ürünü sepetinize başarılı bir şekilde eklendi.", "success", { button: "Tamam", });
+                },
+                error: function () {
+                    swal("Hata", "Ürün sepete eklenirken bir hata oluştu.", "error", { button: "Tamam", });
+                },
+            });
         }
 
         function adjustCount(productID, adjustment) {

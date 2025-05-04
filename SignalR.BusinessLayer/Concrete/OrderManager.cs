@@ -58,6 +58,11 @@ namespace SignalR.BusinessLayer.Concrete
             return _orderDal.MonthlyTotalPrice();
         }
 
+        public void TSumTotalOrderDetailById(int id)
+        {
+            _orderDal.SumTotalOrderDetailById(id);
+        }
+
         public decimal TTodayTotalPrice()
         {
             return _orderDal.TodayTotalPrice();

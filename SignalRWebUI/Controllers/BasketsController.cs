@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SignalRWebUI.Dtos.BasketDtos;
+using Microsoft.AspNetCore.Session;
+using SignalRWebUI.Dtos.OrderDetailDtos;
 using System.Text;
 
 namespace SignalRWebUI.Controllers
@@ -14,15 +15,16 @@ namespace SignalRWebUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index()
         {
-            TempData["tableId"] = id;
+            var orderId = HttpContext.Session.GetInt32("OrderID");
+
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7202/api/Basket/GetBasketByMenuTableNumber?id=" + id);
+            var responseMessage = await client.GetAsync("https://localhost:7202/api/OrderDetail/OrderDetailListByOrderIdWithProducts/" + orderId);
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultBasketListWithProducts>>(jsonData);
+                var values = JsonConvert.DeserializeObject<List<ResultOrderDetailByOrderIdWithProducts>>(jsonData);
                 return View(values);
             }
 
@@ -31,12 +33,11 @@ namespace SignalRWebUI.Controllers
 
         public async Task<IActionResult> DeleteBasket(int id)
         {
-            int tableId = int.Parse(TempData["tableId"]!.ToString()!);
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7202/api/Basket/{id}");
+            var responseMessage = await client.DeleteAsync($"https://localhost:7202/api/OrderDetail/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", new {id = tableId});
+                return RedirectToAction("Index");
             }
             return NoContent();
         }

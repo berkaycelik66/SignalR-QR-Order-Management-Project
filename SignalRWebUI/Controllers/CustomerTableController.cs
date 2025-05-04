@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.MenuTableDtos;
+using SignalRWebUI.Dtos.OrderDtos;
 using System.Net.Http;
 
 namespace SignalRWebUI.Controllers
@@ -26,6 +27,15 @@ namespace SignalRWebUI.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateOrder([FromBody] CreateOrderDto createOrderDto)
+        {
+            //Burada yeni sipariş oluşacak ve Oluşan OrderID session'a kayıt olacak.
+            HttpContext.Session.SetInt32("OrderID", int.Parse(createOrderDto.Description!));
+            // Sipariş başarılıysa JSON döneriz
+            return Json(new { success = true });
         }
     }
 }

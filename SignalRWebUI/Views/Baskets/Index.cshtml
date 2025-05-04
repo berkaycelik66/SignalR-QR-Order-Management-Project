@@ -1,4 +1,4 @@
-﻿@model List<ResultBasketListWithProducts>
+﻿@model List<ResultOrderDetailByOrderIdWithProducts>
 
 @{
     Layout = null;
@@ -40,8 +40,8 @@
                             <th>#</th>
                             <th>Ürün</th>
                             <th>Ürün Adı</th>
-                            <th>Adet</th>
                             <th>Fiyat</th>
+                            <th>Adet</th>
                             <th>Toplam</th>
                             <th>Sil</th>
                         </tr>
@@ -58,19 +58,26 @@
                     }
                     @foreach (var item in Model)
                     {
-                        basketTotalPrice = Model.Sum(x => x.Price);
+                        basketTotalPrice = Model.Sum(x => x.TotalPrice);
                         serviceFee = basketTotalPrice * (decimal)0.1;
                         count++;
-                        
+
                         <tbody class="align-middle">
                             <tr>
                                 <td class="align-middle">@count</td>
-                                <td class="align-middle"><img src="@item.ImageUrl" class="img-fluid rounded" width="65" height="65"/></td>
+                                <td class="align-middle"><img src="@item.ImageUrl" width="65" height="65"/></td>
                                 <td class="align-middle">@item.ProductName</td>
+                                <td class="align-middle">@item.UnitPrice</td>
                                 <td class="align-middle">@item.Count</td>
-                                <td class="align-middle">@item.Price</td>
                                 <td class="align-middle">@item.TotalPrice</td>
-                                <td class="align-middle btn-delete"><a href="/Baskets/DeleteBasket/@item.BasketID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                                @if(item.DeliveryStatus == false)
+                                {
+                                    <td class="align-middle btn-delete"><a href="/Baskets/DeleteBasket/@item.OrderDetailID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                                }
+                                else
+                                {
+                                    <td class="align-middle">Teslim Edildi</td>
+                                }
                             </tr>
                         </tbody>
                     }

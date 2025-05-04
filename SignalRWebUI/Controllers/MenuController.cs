@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SignalR.EntityLayer.Entities;
-using SignalRWebUI.Dtos.BasketDtos;
-using SignalRWebUI.Dtos.CategoryDtos;
+using Newtonsoft.Json.Linq;
+using SignalRWebUI.Dtos.OrderDetailDtos;
+using SignalRWebUI.Dtos.OrderDtos;
 using SignalRWebUI.Dtos.ProductDtos;
 using System.Text;
 
@@ -19,10 +19,8 @@ namespace SignalRWebUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index()
         {
-            ViewBag.v = id;
-
             using var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.GetAsync("https://localhost:7202/api/Product/ProductListWithCategory");
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -31,24 +29,24 @@ namespace SignalRWebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBasket([FromBody]CreateBasketDto createBasketDto)
+        public async Task<IActionResult> AddBasket([FromBody]CreateOrderDetailDto createOrderDetailDto)
         {
-            if (createBasketDto.MenuTableID == 0)
+            var orderID = HttpContext.Session.GetInt32("OrderID");
+            if (orderID.HasValue)
             {
-                return BadRequest("MenuTableId 0 geliyor.");
+                Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + orderID.Value);
+                createOrderDetailDto.OrderID = orderID.Value;
+                var client = _httpClientFactory.CreateClient();
+                var jsonData = JsonConvert.SerializeObject(createOrderDetailDto);
+                StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var responseMessage = await client.PostAsync("https://localhost:7202/api/OrderDetail", stringContent);
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    GetOrder(createOrderDetailDto.OrderID);
+                    return RedirectToAction("Index");
+                }
             }
-
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(createBasketDto);
-            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7202/api/Basket", stringContent);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                await ChangeMenuTableStatusToTrue(createBasketDto.MenuTableID);
-                return RedirectToAction("Index");
-            }
-
-            return Json(createBasketDto);
+            return Json(createOrderDetailDto);
         }
 
         public async Task<IActionResult> ChangeMenuTableStatusToTrue(int id)
@@ -63,6 +61,21 @@ namespace SignalRWebUI.Controllers
             }
 
             return View();
+        }
+
+        public async void GetOrder(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7202/api/Orders/" + id);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var value = JsonConvert.DeserializeObject<GetOrderDto>(jsonData);
+                if(value != null )
+                {
+                    await ChangeMenuTableStatusToTrue(value.MenuTableID);
+                }
+            }
         }
     }
 }
