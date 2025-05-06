@@ -14,6 +14,6 @@ namespace SignalR.DtoLayer.OrderDetailDto
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
         public int OrderID { get; set; }
-        public bool DeliveryStatus { get; set; }
+        public string? DeliveryStatus { get; set; }
     }
 }

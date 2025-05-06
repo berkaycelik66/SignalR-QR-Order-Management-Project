@@ -1,4 +1,5 @@
-﻿using SignalR.DataAccessLayer.Abstract;
+﻿using Microsoft.EntityFrameworkCore;
+using SignalR.DataAccessLayer.Abstract;
 using SignalR.DataAccessLayer.Concrete;
 using SignalR.DataAccessLayer.Repositories;
 using SignalR.EntityLayer.Entities;
@@ -37,6 +38,7 @@ namespace SignalR.DataAccessLayer.EntityFramework
                 context.SaveChanges();
             }
         }
+
 
         public int MenuTableCount()
         {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.BusinessLayer.Abstract;
+using SignalR.DtoLayer.OrderDetailDto;
 using SignalR.DtoLayer.OrderDto;
 using SignalR.EntityLayer.Entities;
 
@@ -26,6 +27,16 @@ namespace SignalRApi.Controllers
             var values = _orderService.TGetListAll();
 
             return Ok(_mapper.Map<List<ResultOrderDto>>(values));
+        }
+
+        [HttpGet("GetActiveOrders")]
+        public IActionResult GetActiveOrders()
+        {
+            var values = _orderService.TGetActiveOrders();
+
+            var activeOrderDtos = _mapper.Map<List<ResultOrderForKitchenDto>>(values);
+
+            return Ok(activeOrderDtos);
         }
 
         [HttpPost]

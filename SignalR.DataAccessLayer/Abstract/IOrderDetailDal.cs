@@ -10,5 +10,7 @@ namespace SignalR.DataAccessLayer.Abstract
     public interface IOrderDetailDal : IGenericDal<OrderDetail>
     {
         List<OrderDetail> OrderDetailListByOrderIdWithProducts(int id);
+        void ChangeDeliveryStatusToCooking(int id);
+        void ChangeDeliveryStatusToReady(int id);
     }
 }

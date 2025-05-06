@@ -33,6 +33,11 @@ namespace SignalR.BusinessLayer.Concrete
             _orderDal.Delete(entity);
         }
 
+        public List<Order> TGetActiveOrders()
+        {
+            return _orderDal.GetActiveOrders();
+        }
+
         public Order TGetByID(int id)
         {
             return _orderDal.GetByID(id);

@@ -22,7 +22,6 @@
                 <h2>
                     Tüm Ürünler
                 </h2>
-                <div class="mt-2 alert alert-info text-center" id="tableName"></div>
             </div>
 
             @await Component.InvokeAsync("_MenuCategoryFilterComponentPartial")
@@ -81,7 +80,7 @@
 
             <div class="btn-box">
                 <a href="/Baskets/Index/">
-                    Sepete Git (@ViewBag.v)
+                    Sepete Git
                 </a>
             </div>
         </div>
@@ -102,7 +101,7 @@
                 count: countElement,
                 unitPrice: productPrice,
                 totalPrice: productPrice * countElement,
-                deliveryStatus: false
+                deliveryStatus: "Beklemede"
             };
             console.log(orderDetailJSON);
 
@@ -131,14 +130,6 @@
             }
 
             countElement.innerText = newCount;
-        }
-
-        window.onload = function getTableName(){
-            if(sessionStorage.getItem('MenuTableID') != null) {
-                $("#tableName").text("Masa Adı: " + sessionStorage.getItem('MenuTableName')).show();
-            } else {
-                $("#tableName").hide();
-            }
         }
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

@@ -43,7 +43,7 @@
                             <th>Fiyat</th>
                             <th>Adet</th>
                             <th>Toplam</th>
-                            <th>Sil</th>
+                            <th>İptal Et</th>
                         </tr>
                     </thead>
                     @if(Model.Count() == 0)
@@ -70,7 +70,7 @@
                                 <td class="align-middle">@item.UnitPrice</td>
                                 <td class="align-middle">@item.Count</td>
                                 <td class="align-middle">@item.TotalPrice</td>
-                                @if(item.DeliveryStatus == false)
+                                @if(item.DeliveryStatus == "Beklemede")
                                 {
                                     <td class="align-middle btn-delete"><a href="/Baskets/DeleteBasket/@item.OrderDetailID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                                 }

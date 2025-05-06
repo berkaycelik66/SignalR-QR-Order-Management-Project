@@ -1,4 +1,5 @@
-﻿using SignalR.DataAccessLayer.Abstract;
+﻿using Microsoft.EntityFrameworkCore;
+using SignalR.DataAccessLayer.Abstract;
 using SignalR.DataAccessLayer.Concrete;
 using SignalR.DataAccessLayer.Repositories;
 using SignalR.EntityLayer.Entities;
@@ -20,6 +21,17 @@ namespace SignalR.DataAccessLayer.EntityFramework
         {
             using var context = new SignalRContext();
             return context.Orders.Where(x => x.Description == "Aktif").Count();
+        }
+
+        public List<Order> GetActiveOrders()
+        {
+            using var context = new SignalRContext();
+            return context.Orders
+                .Where(o => o.Description == "Aktif")
+                .Include(od => od.OrderDetails!)
+                .ThenInclude( p => p.Product)
+                .Include(mt => mt.MenuTable)
+                .ToList();
         }
 
         public decimal LastOrderPrice()

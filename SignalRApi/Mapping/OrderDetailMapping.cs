@@ -16,6 +16,9 @@ namespace SignalRApi.Mapping
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product!.ProductName))
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Product!.ImageUrl))
                 .ReverseMap();
+            CreateMap<OrderDetail, ResultOrderDetailForKitchenDto>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product!.ProductName))
+                .ReverseMap();
         }
     }
 }

@@ -10,5 +10,7 @@ namespace SignalR.BusinessLayer.Abstract
     public interface IOrderDetailService : IGenericService<OrderDetail>
     {
         List<OrderDetail> TOrderDetailListByOrderIdWithProducts(int id);
+        void TChangeDeliveryStatusToCooking(int id);
+        void TChangeDeliveryStatusToReady(int id);
     }
 }

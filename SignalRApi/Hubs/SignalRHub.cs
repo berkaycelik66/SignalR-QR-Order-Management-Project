@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.DataAccessLayer.Concrete;
+using SignalR.DtoLayer.OrderDto;
 
 namespace SignalRApi.Hubs
 {
@@ -13,10 +15,11 @@ namespace SignalRApi.Hubs
         private readonly IMenuTableService _menuTableService;
         private readonly IBookingService _bookingService;
         private readonly INotificationService _notificationService;
+        private readonly IMapper _mapper;
 
         private static int clientCount = 0;
 
-        public SignalRHub(ICategoryService categoryService, IProductService productService, IOrderService orderService, IMoneyCaseService moneyCaseService, IMenuTableService menuTableService, IBookingService bookingService, INotificationService notificationService)
+        public SignalRHub(ICategoryService categoryService, IProductService productService, IOrderService orderService, IMoneyCaseService moneyCaseService, IMenuTableService menuTableService, IBookingService bookingService, INotificationService notificationService, IMapper mapper)
         {
             _categoryService = categoryService;
             _productService = productService;
@@ -25,6 +28,7 @@ namespace SignalRApi.Hubs
             _menuTableService = menuTableService;
             _bookingService = bookingService;
             _notificationService = notificationService;
+            _mapper = mapper;
         }
 
         public async Task SendStatistic()
@@ -148,6 +152,12 @@ namespace SignalRApi.Hubs
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
+        public async Task SendKitchenOrderDetailList()
+        {
+            var values = _orderService.TGetActiveOrders();
+            var activeOrderDtos = _mapper.Map<List<ResultOrderForKitchenDto>>(values);
+            await Clients.All.SendAsync("ReceiveOrderDetails", activeOrderDtos);
+        }
         public override async Task OnConnectedAsync()
         {
             clientCount++;

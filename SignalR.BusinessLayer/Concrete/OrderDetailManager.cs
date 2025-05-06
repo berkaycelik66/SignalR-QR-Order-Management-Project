@@ -23,6 +23,16 @@ namespace SignalR.BusinessLayer.Concrete
             _orderDetailDal.Add(entity);
         }
 
+        public void TChangeDeliveryStatusToCooking(int id)
+        {
+            _orderDetailDal.ChangeDeliveryStatusToCooking(id);
+        }
+
+        public void TChangeDeliveryStatusToReady(int id)
+        {
+            _orderDetailDal.ChangeDeliveryStatusToReady(id);
+        }
+
         public void TDelete(OrderDetail entity)
         {
             _orderDetailDal.Delete(entity);

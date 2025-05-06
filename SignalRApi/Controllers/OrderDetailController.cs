@@ -79,5 +79,19 @@ namespace SignalRApi.Controllers
             var value = _orderDetailService.TGetByID(id);
             return Ok(_mapper.Map<GetOrderDetailDto>(value));
         }
+
+        [HttpPut("ChangeDeliveryStatusToCooking")]
+        public IActionResult ChangeDeliveryStatusToCooking([FromBody] int id)
+        {
+            _orderDetailService.TChangeDeliveryStatusToCooking(id);
+            return Ok("Teslimat Durumu Pişirmede Olarak Güncellendi.");
+        }
+
+        [HttpPut("ChangeDeliveryStatusToReady")]
+        public IActionResult ChangeDeliveryStatusToReady([FromBody] int id)
+        {
+            _orderDetailService.TChangeDeliveryStatusToReady(id);
+            return Ok("Teslimat Durumu Hazırlandı Olarak Güncellendi..");
+        }
     }
 }

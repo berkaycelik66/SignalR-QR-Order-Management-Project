@@ -45,14 +45,14 @@
 
                         value.forEach(item => {
                             $("#unreadNotificationList").append(`<a href="#">
-                                    <div class="${item.type}"> <i class="${item.icon}"></i> </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            ${item.description}
-                                        </span>
-                                        <span class="time">${Math.floor((new Date() - new Date(item.date)) / 1000 / 60) < 60 ? Math.floor((new Date() - new Date(item.date)) / 1000 / 60) + ' dakika önce' : Math.floor((new Date() - new Date(item.date)) / 1000 / 60 / 60) + ' saat önce'}</span>
-                                    </div>
-                                </a>`);
+                                <div class="${item.type}"> <i class="${item.icon}"></i> </div>
+                                <div class="notif-content">
+                                    <span class="block">
+                                        ${item.description}
+                                    </span>
+                                    <span class="time">${Math.floor((new Date() - new Date(item.date)) / 1000 / 60) < 60 ? Math.floor((new Date() - new Date(item.date)) / 1000 / 60) + ' dakika önce' : Math.floor((new Date() - new Date(item.date)) / 1000 / 60 / 60) + ' saat önce'}</span>
+                                </div>
+                            </a>`);
                         });
                     });
                 });

@@ -107,15 +107,10 @@
     @await Component.InvokeAsync("_UILayoutScriptComponentPartial")
 
     <script>
-        //Buradan MenuTableID depolanacak 
         function saveMenuTableID(menuTableID, menuTableName) {
-            // sessionStorage.setItem('MenuTableID', menuTableID);
-            // sessionStorage.setItem('MenuTableName', menuTableName);
-            // window.location.href = '/Menu/Index/'
-            
             //Burada POST ile yeni bir Order oluşacak ve Dönen ID Session'a kayıt olacak.
             let orderJSON = {
-                description: "2",
+                description: "3",
                 menuTableID: menuTableID
             };
             console.log(orderJSON);

@@ -17,6 +17,28 @@ namespace SignalR.DataAccessLayer.EntityFramework
         {
         }
 
+        public void ChangeDeliveryStatusToCooking(int id)
+        {
+            using var context = new SignalRContext();
+            var value = context.OrderDetails.Find(id);
+            if(value != null)
+            {
+                value.DeliveryStatus = "Pişirmede";
+                context.SaveChanges();
+            }
+        }
+
+        public void ChangeDeliveryStatusToReady(int id)
+        {
+            using var context = new SignalRContext();
+            var value = context.OrderDetails.Find(id);
+            if (value != null)
+            {
+                value.DeliveryStatus = "Hazırlandı";
+                context.SaveChanges();
+            }
+        }
+
         public List<OrderDetail> OrderDetailListByOrderIdWithProducts(int id)
         {
             using var context = new SignalRContext();

@@ -16,5 +16,6 @@ namespace SignalR.BusinessLayer.Abstract
         decimal TMonthlyTotalPrice();
         int TMonthlyTotalOrderCount();
         void TSumTotalOrderDetailById(int id);
+        public List<Order> TGetActiveOrders();
     }
 }
