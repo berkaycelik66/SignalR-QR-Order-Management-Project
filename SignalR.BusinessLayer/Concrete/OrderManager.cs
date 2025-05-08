@@ -48,6 +48,11 @@ namespace SignalR.BusinessLayer.Concrete
             return _orderDal.GetListAll();
         }
 
+        public List<Order> TGetOrderDetailByMenuTableId(int id)
+        {
+            return _orderDal.GetOrderDetailByMenuTableId(id);
+        }
+
         public decimal TLastOrderPrice()
         {
             return _orderDal.LastOrderPrice();
@@ -81,6 +86,11 @@ namespace SignalR.BusinessLayer.Concrete
         public void TUpdate(Order entity)
         {
             _orderDal.Update(entity);
+        }
+
+        public void TUpdatePayment(int id)
+        {
+            _orderDal.UpdatePayment(id);
         }
     }
 }

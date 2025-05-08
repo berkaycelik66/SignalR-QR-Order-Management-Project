@@ -34,7 +34,6 @@ namespace SignalRWebUI.Controllers
             var orderID = HttpContext.Session.GetInt32("OrderID");
             if (orderID.HasValue)
             {
-                Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + orderID.Value);
                 createOrderDetailDto.OrderID = orderID.Value;
                 var client = _httpClientFactory.CreateClient();
                 var jsonData = JsonConvert.SerializeObject(createOrderDetailDto);

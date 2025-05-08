@@ -19,6 +19,9 @@ namespace SignalRApi.Mapping
             CreateMap<OrderDetail, ResultOrderDetailForKitchenDto>()
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product!.ProductName))
                 .ReverseMap();
+            CreateMap<OrderDetail, ResultOrderDetailForPayment>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product!.ProductName))
+                .ReverseMap();
         }
     }
 }

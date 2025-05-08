@@ -13,12 +13,14 @@ namespace SignalRApi.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IMoneyCaseService _moneyCaseService;
         private readonly IMapper _mapper;
 
-        public OrdersController(IOrderService orderService, IMapper mapper)
+        public OrdersController(IOrderService orderService, IMapper mapper, IMoneyCaseService moneyCaseService)
         {
             _orderService = orderService;
             _mapper = mapper;
+            _moneyCaseService = moneyCaseService;
         }
 
         [HttpGet]
@@ -37,6 +39,16 @@ namespace SignalRApi.Controllers
             var activeOrderDtos = _mapper.Map<List<ResultOrderForKitchenDto>>(values);
 
             return Ok(activeOrderDtos);
+        }
+
+        [HttpGet("GetOrderDetailByMenuTableId/{id}")]
+        public IActionResult GetOrderDetailByMenuTableId(int id)
+        {
+            var values = _orderService.TGetOrderDetailByMenuTableId(id);
+
+            var orderByMenuTableId = _mapper.Map<List<ResultOrderForPayment>>(values);
+
+            return Ok(orderByMenuTableId);
         }
 
         [HttpPost]
@@ -69,7 +81,16 @@ namespace SignalRApi.Controllers
         {
             var value = _mapper.Map<Order>(updateOrderDto);
             _orderService.TUpdate(value);
+            _moneyCaseService.TSumTotalMoneyCase();
             return Ok("Güncellendi.");
+        }
+
+        [HttpPut("UpdatePayment")]
+        public IActionResult UpdatePayment([FromBody] int id)
+        {
+            _orderService.TUpdatePayment(id);
+            _moneyCaseService.TSumTotalMoneyCase();
+            return Ok("Ödeme Gerçekleşti.");
         }
 
         [HttpGet("{id}")]

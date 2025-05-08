@@ -19,16 +19,22 @@ namespace SignalRWebUI.Controllers
         {
             var orderId = HttpContext.Session.GetInt32("OrderID");
 
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7202/api/OrderDetail/OrderDetailListByOrderIdWithProducts/" + orderId);
-            if (responseMessage.IsSuccessStatusCode)
+            if(orderId != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultOrderDetailByOrderIdWithProducts>>(jsonData);
-                return View(values);
+
+                var client = _httpClientFactory.CreateClient();
+                var responseMessage = await client.GetAsync("https://localhost:7202/api/OrderDetail/OrderDetailListByOrderIdWithProducts/" + orderId);
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                    var values = JsonConvert.DeserializeObject<List<ResultOrderDetailByOrderIdWithProducts>>(jsonData);
+                    return View(values);
+                }
+
+                return View();
             }
 
-            return View();
+            return RedirectToAction("CustomerTableList", "CustomerTable");
         }
 
         public async Task<IActionResult> DeleteBasket(int id)

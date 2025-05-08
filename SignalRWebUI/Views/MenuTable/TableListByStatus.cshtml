@@ -44,7 +44,9 @@
                                                                 </div>
                                                                 <div class="col-7 d-flex align-items-center">
                                                                     <div class="numbers">
-                                                                        <p class="card-category">${item.name}</p>
+                                                                        <p class="card-category">
+                                                                            ${item.status == true ? `<a href='/MenuTable/PaymentDetail/${item.menuTableID}' class="text-info" style="text-decoration: none; font-weight: bold;">${item.name}</a>` : item.name}
+                                                                        </p>
                                                                         <h4 class="card-title">${item.status == true ? "Dolu" : "Boş"}</h4>
                                                                     </div>
                                                                 </div>

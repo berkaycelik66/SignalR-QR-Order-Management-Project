@@ -126,9 +126,9 @@
                             <p class="bg-gray d-flex justify-content-between align-items-center mb-1">
                                 <span><strong>${detail.count}x</strong> ${detail.productName}</span>
                                 
-                                <a href="${detail.deliveryStatus === 'Beklemede' ? '/OrderDetail/ChangeDeliveryStatusToCooking/'+ detail.orderDetailID : detail.deliveryStatus === 'Pişirmede' ? '/OrderDetail/ChangeDeliveryStatusToReady/'+ detail.orderDetailID : '#'}"  class="btn badge ${detail.deliveryStatus === 'Beklemede' ? 'btn-secondary' : detail.deliveryStatus === 'Pişirmede' ? 'btn-warning' : 'btn-success'}">
+                                <a href="${detail.deliveryStatus === 'Beklemede' ? '/OrderDetail/ChangeDeliveryStatusToCooking/'+ detail.orderDetailID : detail.deliveryStatus === 'Hazırlanıyor' ? '/OrderDetail/ChangeDeliveryStatusToReady/'+ detail.orderDetailID : '#'}"  class="btn badge ${detail.deliveryStatus === 'Beklemede' ? 'btn-secondary' : detail.deliveryStatus === 'Hazırlanıyor' ? 'btn-warning' : 'btn-success'}">
                                     <span>
-                                        <i class="bi ${detail.deliveryStatus === 'Beklemede' ? 'bi-hourglass-split' : detail.deliveryStatus === 'Pişirmede' ? 'bi-fire' : 'bi-check-circle'} me-1"></i> ${detail.deliveryStatus}
+                                        <i class="bi ${detail.deliveryStatus === 'Beklemede' ? 'bi-hourglass-split' : detail.deliveryStatus === 'Hazırlanıyor' ? 'bi-fire' : 'bi-check-circle'} me-1"></i> ${detail.deliveryStatus}
                                     </span>
                                 </a>
                             </p>

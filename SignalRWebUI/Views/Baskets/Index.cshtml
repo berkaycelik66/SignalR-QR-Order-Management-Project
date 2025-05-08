@@ -44,9 +44,10 @@
                             <th>Adet</th>
                             <th>Toplam</th>
                             <th>İptal Et</th>
+                            <th>Durum</th>
                         </tr>
                     </thead>
-                    @if(Model.Count() == 0)
+                    @if (Model.Count() == 0)
                     {
                         <tbody class="align-middle">
                             <tr>
@@ -65,18 +66,21 @@
                         <tbody class="align-middle">
                             <tr>
                                 <td class="align-middle">@count</td>
-                                <td class="align-middle"><img src="@item.ImageUrl" width="65" height="65"/></td>
+                                <td class="align-middle"><img src="@item.ImageUrl" width="65" height="65" /></td>
                                 <td class="align-middle">@item.ProductName</td>
                                 <td class="align-middle">@item.UnitPrice</td>
                                 <td class="align-middle">@item.Count</td>
                                 <td class="align-middle">@item.TotalPrice</td>
-                                @if(item.DeliveryStatus == "Beklemede")
+                                @if (item.DeliveryStatus == "Hazırlandı")
                                 {
-                                    <td class="align-middle btn-delete"><a href="/Baskets/DeleteBasket/@item.OrderDetailID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                                    <td class="align-middle"></td>
+                                    <td class="align-middle">Teslim Edildi</td>
+
                                 }
                                 else
                                 {
-                                    <td class="align-middle">Teslim Edildi</td>
+                                    <td class="align-middle btn-delete"><a href="/Baskets/DeleteBasket/@item.OrderDetailID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                                    <td class="align-middle">@item.DeliveryStatus</td>
                                 }
                             </tr>
                         </tbody>

@@ -23,7 +23,7 @@ namespace SignalR.DataAccessLayer.EntityFramework
             var value = context.OrderDetails.Find(id);
             if(value != null)
             {
-                value.DeliveryStatus = "Pişirmede";
+                value.DeliveryStatus = "Hazırlanıyor";
                 context.SaveChanges();
             }
         }

@@ -34,6 +34,33 @@ namespace SignalR.DataAccessLayer.EntityFramework
                 .ToList();
         }
 
+        public List<Order> GetOrderDetailByMenuTableId(int id)
+        {
+            using var context = new SignalRContext();
+            return context.Orders
+                .Where(o => o.Description == "Aktif" && o.MenuTableID == id)
+                .Include(od => od.OrderDetails!)
+                .ThenInclude(p => p.Product)
+                .Include(mt => mt.MenuTable)
+                .ToList();
+        }
+
+        public void UpdatePayment(int id)
+        {
+            using var context = new SignalRContext();
+            var value = context.Orders.Find(id);
+            if(value != null)
+            {
+                var valueMenuTable = context.MenuTables.Where(x => x.MenuTableID == value.MenuTableID).FirstOrDefault();
+                if(valueMenuTable != null)
+                {
+                    value.Description = "Ödendi";
+                    valueMenuTable.Status = false;
+                    context.SaveChanges();
+                }
+            }
+        }
+
         public decimal LastOrderPrice()
         {
             using var context = new SignalRContext();

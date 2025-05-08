@@ -16,6 +16,8 @@ namespace SignalR.DataAccessLayer.Abstract
         decimal MonthlyTotalPrice();
         int MonthlyTotalOrderCount();
         void SumTotalOrderDetailById(int id);
-        public List<Order> GetActiveOrders();
+        List<Order> GetActiveOrders();
+        List<Order> GetOrderDetailByMenuTableId(int id);
+        void UpdatePayment(int id);
     }
 }

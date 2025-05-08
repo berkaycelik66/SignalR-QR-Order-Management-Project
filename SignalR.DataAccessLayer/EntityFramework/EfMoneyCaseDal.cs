@@ -16,6 +16,17 @@ namespace SignalR.DataAccessLayer.EntityFramework
         {
         }
 
+        public void SumTotalMoneyCase()
+        {
+            using var context = new SignalRContext();
+            var value = context.MoneyCases.FirstOrDefault();
+            if(value != null)
+            {
+                value.TotalAmount = context.Orders.Where(x => x.Description == "Ödendi").Sum(x => x.TotalPrice);
+                context.SaveChanges();
+            }
+        }
+
         public decimal TotalMoneyCaseAmount()
         {
             using var context = new SignalRContext();
