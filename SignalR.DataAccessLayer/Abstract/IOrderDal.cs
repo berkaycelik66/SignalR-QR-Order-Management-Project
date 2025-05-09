@@ -20,5 +20,7 @@ namespace SignalR.DataAccessLayer.Abstract
         List<Order> GetOrderDetailByMenuTableId(int id);
         void UpdatePayment(int id);
         int CreateOrderReturnOrderID(Order entity);
+        void GenerateCompletionCode(int id);
+        string GetCompletionCode(int id);
     }
 }

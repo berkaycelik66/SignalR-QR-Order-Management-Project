@@ -13,6 +13,7 @@ namespace SignalR.EntityLayer.Entities
         public DateTime Date { get; set; }
         public decimal TotalPrice { get; set; }
         public int MenuTableID { get; set; }
+        public string? CompletionCode { get; set; }
 
         public MenuTable? MenuTable { get; set; } 
         public List<OrderDetail>? OrderDetails { get; set; }

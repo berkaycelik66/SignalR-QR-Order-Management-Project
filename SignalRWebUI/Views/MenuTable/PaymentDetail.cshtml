@@ -31,8 +31,12 @@
                                     <label>Toplam Ücret (₺) (Servis Ücreti Dahildir)</label>
                                     <input value="@(item.TotalPrice * 11 / 10)" type="text" class="form-control" placeholder="Toplam Ücret" disabled>
                                 </div>
+                                <div class="form-group">
+                                    <label>Ödeme Onay Kodu</label>
+                                    <input class="form-control" type="text" id="lblCompletionCode" name="completionCode" placeholder="Sipariş kodunu girin" />
+                                </div>
                                 <div class="card-action">
-                                    <a href="javascript:void(0);" onclick="getPayment(@item.OrderID)" class="btn btn-primary" id="paymentButton">Ödeme Al</a>
+                                    <a href="javascript:void(0);" onclick="getPayment(@item.OrderID, `@item.CompletionCode`)" class="btn btn-primary" id="paymentButton">Ödeme Al</a>
 
                                     <a href="/MenuTable/TableListByStatus/" class="btn btn-danger">Vazgeç</a>
                                 </div>
@@ -78,22 +82,26 @@
 </div>
 
 <script>
-    function getPayment(orderID) {
+    function getPayment(orderID, orderCompletionCode) {
+        var userCompletionCode = $('#lblCompletionCode').val();
 
-            console.log(orderID + "XXXXXXXXXXX");
-
+        if (userCompletionCode === orderCompletionCode) {
             $.ajax({
                 url: '/MenuTable/GetPayment/' + orderID,
                 type: 'PUT',
                 contentType: 'application/json',
                 success: function () {
-                        swal("Başarılı", "Ödeme başarıyla alındı.", "success", { button: "Tamam", }).then(function() { window.location.href = '/MenuTable/TableListByStatus';});
-
+                    swal("Başarılı", "Ödeme başarıyla alındı.", "success", { button: "Tamam", }).then(function() {
+                        window.location.href = '/MenuTable/TableListByStatus';
+                    });
                 },
                 error: function () {
                     swal("Hata", "Ödeme alınırken bir hata oluştu.", "error", { button: "Tamam", });
-                },
+                }
             });
-    };
+        } else {
+            swal("Hata", "Girilen kod geçersiz. Lütfen tekrar deneyin.", "error", { button: "Tamam", });
+        }
+    }
 </script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

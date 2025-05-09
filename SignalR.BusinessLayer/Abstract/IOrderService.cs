@@ -20,5 +20,7 @@ namespace SignalR.BusinessLayer.Abstract
         List<Order> TGetOrderDetailByMenuTableId(int id);
         void TUpdatePayment(int id);
         int TCreateOrderReturnOrderID(Order entity);
+        void TGenerateCompletionCode(int id);
+        string TGetCompletionCode(int id);
     }
 }

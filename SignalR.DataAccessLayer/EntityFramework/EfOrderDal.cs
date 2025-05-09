@@ -110,5 +110,31 @@ namespace SignalR.DataAccessLayer.EntityFramework
             context.SaveChanges();
             return entity.OrderID;
         }
+
+        public void GenerateCompletionCode(int id)
+        {
+            using var context = new SignalRContext();
+            var completionCode = new Random().Next(100000, 999999).ToString();
+            var value = context.Orders.Find(id);
+            if(value != null)
+            {
+                value.CompletionCode = completionCode;
+                context.SaveChanges();
+            }
+
+        }
+
+        public string GetCompletionCode(int id)
+        {
+            using var context = new SignalRContext();
+            var value = context.Orders.Find(id);
+            if(value != null)
+            {
+
+                return value.CompletionCode!;
+            }
+
+            return "";
+        }
     }
 }

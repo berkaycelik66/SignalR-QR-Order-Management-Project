@@ -88,8 +88,12 @@
             connection.on("ReceiveOrderDetails", (value) => {
                 $("#tableList").empty();
 
+                if (value.length === 0) {
+                    $("#tableList").html('<p class="alert alert-info">Henüz bir sipariş bulunmamaktadır.</p>');
+                    return;
+                }
                 let tableHtml = `<div class="row g-3 p-3">`;
-
+                
                 value.forEach(item => {
                     let safeMenuTableName = item.menuTableName.replace(/\s+/g, '_');
 

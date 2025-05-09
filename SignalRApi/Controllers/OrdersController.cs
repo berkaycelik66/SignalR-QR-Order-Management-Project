@@ -103,6 +103,13 @@ namespace SignalRApi.Controllers
             return Ok("Ödeme Gerçekleşti.");
         }
 
+        [HttpPut("GenerateCompletionCode")]
+        public IActionResult GenerateCompletionCode([FromBody]int id)
+        {
+            _orderService.TGenerateCompletionCode(id);
+            return Ok("Kod oluşturuldu.");
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetOrder(int id)
         {
@@ -132,6 +139,12 @@ namespace SignalRApi.Controllers
         public IActionResult TodayTotalPrice()
         {
             return Ok(_orderService.TTodayTotalPrice());
+        }
+
+        [HttpGet("GetCompletionCode/{id}")]
+        public IActionResult GetCompletionCode(int id)
+        {
+            return Ok(_orderService.TGetCompletionCode(id));
         }
 
     }

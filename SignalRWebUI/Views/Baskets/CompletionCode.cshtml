@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+    var jsonData = ViewBag.CompletionCodeData as string;
+}
+
+<!DOCTYPE html>
+
+<html>
+@await Component.InvokeAsync("_UILayoutHeaderComponentPartial")
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+    .verification-wrapper {
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .verification-card {
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        background-color: #fff;
+    }
+
+    .code-box {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .code-digit {
+        width: 50px;
+        height: 60px;
+        font-size: 24px;
+        font-weight: bold;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        color: #a79525;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<body class="sub_page">
+    @await Component.InvokeAsync("_MenuNavbarComponentPartial")
+    <br />
+    <br />
+
+    <div class="verification-wrapper">
+        <div class="verification-card">
+        <h4 class="fw-bold">Sipariş Tamamlandı</h4>
+        <p class="text-muted mb-3">İşleminiz başarıyla alınmıştır. Siparişinizin tamamlanabilmesi için aşağıdaki kodu kasaya gösterin:</p>
+        @if (jsonData != null)
+        {
+            <div class="code-box">
+                <div class="code-digit">@jsonData[0]</div>
+                <div class="code-digit">@jsonData[1]</div>
+                <div class="code-digit">@jsonData[2]</div>
+                <div class="code-digit">@jsonData[3]</div>
+                <div class="code-digit">@jsonData[4]</div>
+                <div class="code-digit">@jsonData[5]</div>
+            </div>
+        }
+
+        <button onclick="window.location.href='/Default/Index'" class="btn btn-warning">Ana Sayfaya Dön</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -15,6 +15,7 @@ namespace SignalR.DtoLayer.OrderDto
         public bool MenuTableStatus { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
+        public string? CompletionCode { get; set; }
         public List<ResultOrderDetailForPayment>? OrderDetails { get; set; }
     }
 }

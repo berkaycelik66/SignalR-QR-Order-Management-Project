@@ -38,6 +38,11 @@ namespace SignalR.BusinessLayer.Concrete
             _orderDal.Delete(entity);
         }
 
+        public void TGenerateCompletionCode(int id)
+        {
+            _orderDal.GenerateCompletionCode(id);
+        }
+
         public List<Order> TGetActiveOrders()
         {
             return _orderDal.GetActiveOrders();
@@ -46,6 +51,11 @@ namespace SignalR.BusinessLayer.Concrete
         public Order TGetByID(int id)
         {
             return _orderDal.GetByID(id);
+        }
+
+        public string TGetCompletionCode(int id)
+        {
+            return _orderDal.GetCompletionCode(id);
         }
 
         public List<Order> TGetListAll()

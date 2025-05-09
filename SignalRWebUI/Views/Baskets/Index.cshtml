@@ -119,8 +119,13 @@
                             <h5><span id="totalPrice">@((basketTotalPrice + serviceFee).ToString("0.00"))</span> TL</h5>
                         </div>
                         <br />
-                        <button id="btnChecked" class="btn btn-block btn-warning font-weight-bold my-3">Siparişi Tamamla</button>
-                    </div>
+                        <div class="alert alert-info">
+                            Siparişi Tamamladıktan sonra ekrana gelen kodu kasaya gösteriniz.
+                        </div>
+                        <form id="orderForm" method="post" action="@Url.Action("GenerateCompletionCode", "Baskets")">
+                            <button type="submit" class="btn btn-block btn-warning font-weight-bold my-3">Siparişi Tamamla</button>
+                        </form>
+                    </>
                 </div>
             </div>
         </div>

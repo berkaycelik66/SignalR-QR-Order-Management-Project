@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Session;
 using SignalRWebUI.Dtos.OrderDetailDtos;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace SignalRWebUI.Controllers
 {
@@ -46,6 +47,50 @@ namespace SignalRWebUI.Controllers
                 return RedirectToAction("Index");
             }
             return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GenerateCompletionCode()
+        {
+            var orderId = HttpContext.Session.GetInt32("OrderID");
+            if(orderId != null)
+            { 
+                var client = _httpClientFactory.CreateClient();
+                var jsonData = JsonConvert.SerializeObject(orderId);
+                StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var responseMessage = await client.PutAsync("https://localhost:7202/api/Orders/GenerateCompletionCode", stringContent);
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("CompletionCode");
+                }
+
+                return View();
+            }
+
+            return RedirectToAction("CustomerTableList", "CustomerTable");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CompletionCode()
+        {
+            var orderId = HttpContext.Session.GetInt32("OrderID");
+            if (orderId != null)
+            {
+
+                var client = _httpClientFactory.CreateClient();
+                var responseMessage = await client.GetAsync("https://localhost:7202/api/Orders/GetCompletionCode/" + orderId);
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                    ViewBag.CompletionCodeData = jsonData;
+                    HttpContext.Session.Remove("OrderID");
+                    return View();
+                }
+
+                return View();
+            }
+
+            return RedirectToAction("CustomerTableList", "CustomerTable");
         }
     }
 }
