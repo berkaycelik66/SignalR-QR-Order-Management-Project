@@ -28,6 +28,11 @@ namespace SignalR.BusinessLayer.Concrete
             _orderDal.Add(entity);
         }
 
+        public int TCreateOrderReturnOrderID(Order entity)
+        {
+            return _orderDal.CreateOrderReturnOrderID(entity);
+        }
+
         public void TDelete(Order entity)
         {
             _orderDal.Delete(entity);

@@ -61,6 +61,16 @@ namespace SignalRApi.Controllers
             return Ok("Ekleme işlemi başarılı.");
         }
 
+        [HttpPost("CreateOrderReturnOrderID")]
+        public IActionResult CreateOrderReturnOrderID(CreateOrderDto createOrderDto)
+        {
+            var value = _mapper.Map<Order>(createOrderDto);
+            var id = _orderService.TCreateOrderReturnOrderID(value);
+
+            return Ok(id);
+        }
+
+
         [HttpDelete("{id}")]
         public IActionResult DeleteOrder(int id)
         {

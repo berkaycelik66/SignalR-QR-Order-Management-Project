@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SignalRWebUI.Dtos.MenuTableDtos;
 using SignalRWebUI.Dtos.OrderDtos;
 using System.Net.Http;
+using System.Text;
 
 namespace SignalRWebUI.Controllers
 {
@@ -30,12 +32,34 @@ namespace SignalRWebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateOrder([FromBody] CreateOrderDto createOrderDto)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto createOrderDto)
         {
-            //Burada yeni sipariş oluşacak ve Oluşan OrderID session'a kayıt olacak.
-            HttpContext.Session.SetInt32("OrderID", int.Parse(createOrderDto.Description!));
-            // Sipariş başarılıysa JSON döneriz
-            return Json(new { success = true });
+            createOrderDto.Date = DateTime.Now;
+            var client = _httpClientFactory.CreateClient();
+            var jsonData = JsonConvert.SerializeObject(createOrderDto);
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PostAsync("https://localhost:7202/api/Orders/CreateOrderReturnOrderID", stringContent);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseBody = await responseMessage.Content.ReadAsStringAsync();
+                var id = responseBody.ToString();
+                if (id != null)
+                {
+                    HttpContext.Session.SetInt32("OrderID", int.Parse(id));
+                    ChangeMenuTableStatusToTrue(createOrderDto.MenuTableID);
+                    return Json(new { success = true });
+                }
+            }
+
+            return Json(new { success = false });
+        }
+
+        public void ChangeMenuTableStatusToTrue(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var jsonData = JsonConvert.SerializeObject(id);
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = client.PutAsync("https://localhost:7202/api/MenuTables/ChangeMenuTableStatusToTrue", stringContent);
         }
     }
 }

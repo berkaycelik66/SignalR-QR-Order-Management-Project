@@ -19,5 +19,6 @@ namespace SignalR.DataAccessLayer.Abstract
         List<Order> GetActiveOrders();
         List<Order> GetOrderDetailByMenuTableId(int id);
         void UpdatePayment(int id);
+        int CreateOrderReturnOrderID(Order entity);
     }
 }

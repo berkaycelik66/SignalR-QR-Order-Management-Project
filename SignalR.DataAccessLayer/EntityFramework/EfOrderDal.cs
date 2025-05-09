@@ -102,5 +102,13 @@ namespace SignalR.DataAccessLayer.EntityFramework
             using var context = new SignalRContext();
             return context.Orders.Count();
         }
+
+        public int CreateOrderReturnOrderID(Order entity)
+        {
+            using var context = new SignalRContext();
+            context.Add(entity);
+            context.SaveChanges();
+            return entity.OrderID;
+        }
     }
 }

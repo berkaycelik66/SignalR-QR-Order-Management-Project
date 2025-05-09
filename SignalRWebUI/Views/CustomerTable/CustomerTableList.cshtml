@@ -80,7 +80,7 @@
                         else
                         {
                             <div class="widget-icon">
-                                <a href="javascript:void(0);" onclick="saveMenuTableID(@item.MenuTableID,`@item.Name`)"><i id="empty" class="fas fa-cutlery"></i></a>
+                                <a href="javascript:void(0);" onclick="saveMenuTableID(@item.MenuTableID)"><i id="empty" class="fas fa-cutlery"></i></a>
                             </div>
                         }
 
@@ -107,11 +107,11 @@
     @await Component.InvokeAsync("_UILayoutScriptComponentPartial")
 
     <script>
-        function saveMenuTableID(menuTableID, menuTableName) {
-            //Burada POST ile yeni bir Order oluşacak ve Dönen ID Session'a kayıt olacak.
+        function saveMenuTableID(menuTableID) {
             let orderJSON = {
-                description: "3",
-                menuTableID: menuTableID
+                menuTableID: menuTableID,
+                description: "Aktif",
+                totalPrice: 0,
             };
             console.log(orderJSON);
 
@@ -124,7 +124,7 @@
                     window.location.href = '/Menu/Index';
                 },
                 error: function () {
-                    swal("Hata","" , "error", { button: "Tamam", });
+                    swal("Hata","Masa Seçimi Başarısız" , "error", { button: "Tamam", });
                 },
             });
         }
