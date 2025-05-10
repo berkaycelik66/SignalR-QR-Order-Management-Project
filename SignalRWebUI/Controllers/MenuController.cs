@@ -32,7 +32,8 @@ namespace SignalRWebUI.Controllers
         public async Task<IActionResult> AddBasket([FromBody]CreateOrderDetailDto createOrderDetailDto)
         {
             var orderID = HttpContext.Session.GetInt32("OrderID");
-            if (orderID.HasValue)
+
+            if (orderID != null)
             {
                 createOrderDetailDto.OrderID = orderID.Value;
                 var client = _httpClientFactory.CreateClient();
@@ -45,7 +46,8 @@ namespace SignalRWebUI.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            return Json(createOrderDetailDto);
+
+            return Json(new {error =  true} );
         }
 
         public async Task<IActionResult> ChangeMenuTableStatusToTrue(int id)
