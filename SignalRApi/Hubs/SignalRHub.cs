@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.DataAccessLayer.Concrete;
+using SignalR.DtoLayer.OrderDetailDto;
 using SignalR.DtoLayer.OrderDto;
 
 namespace SignalRApi.Hubs
@@ -15,11 +16,13 @@ namespace SignalRApi.Hubs
         private readonly IMenuTableService _menuTableService;
         private readonly IBookingService _bookingService;
         private readonly INotificationService _notificationService;
+        private readonly IOrderDetailService _orderDetailService;
         private readonly IMapper _mapper;
+
 
         private static int clientCount = 0;
 
-        public SignalRHub(ICategoryService categoryService, IProductService productService, IOrderService orderService, IMoneyCaseService moneyCaseService, IMenuTableService menuTableService, IBookingService bookingService, INotificationService notificationService, IMapper mapper)
+        public SignalRHub(ICategoryService categoryService, IProductService productService, IOrderService orderService, IMoneyCaseService moneyCaseService, IMenuTableService menuTableService, IBookingService bookingService, INotificationService notificationService, IMapper mapper, IOrderDetailService orderDetailService)
         {
             _categoryService = categoryService;
             _productService = productService;
@@ -29,6 +32,7 @@ namespace SignalRApi.Hubs
             _bookingService = bookingService;
             _notificationService = notificationService;
             _mapper = mapper;
+            _orderDetailService = orderDetailService;
         }
 
         public async Task SendStatistic()
@@ -157,6 +161,13 @@ namespace SignalRApi.Hubs
             var values = _orderService.TGetActiveOrders();
             var activeOrderDtos = _mapper.Map<List<ResultOrderForKitchenDto>>(values);
             await Clients.All.SendAsync("ReceiveOrderDetails", activeOrderDtos);
+        }
+
+        public async Task SendBasketOrderDetailList(string orderId)
+        {
+            var values = _mapper.Map<List<ResultOrderDetailByOrderIdWithProducts>>(_orderDetailService.TOrderDetailListByOrderIdWithProducts(int.Parse(orderId)));
+
+            await Clients.All.SendAsync("ReceiveOrderDetailList", values);
         }
         public override async Task OnConnectedAsync()
         {

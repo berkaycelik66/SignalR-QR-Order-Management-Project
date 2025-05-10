@@ -16,21 +16,13 @@ namespace SignalRWebUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var orderId = HttpContext.Session.GetInt32("OrderID");
 
-            if(orderId != null)
+            if (orderId != null)
             {
-
-                var client = _httpClientFactory.CreateClient();
-                var responseMessage = await client.GetAsync("https://localhost:7202/api/OrderDetail/OrderDetailListByOrderIdWithProducts/" + orderId);
-                if (responseMessage.IsSuccessStatusCode)
-                {
-                    var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                    var values = JsonConvert.DeserializeObject<List<ResultOrderDetailByOrderIdWithProducts>>(jsonData);
-                    return View(values);
-                }
+                ViewData["OrderId"] = orderId;
 
                 return View();
             }

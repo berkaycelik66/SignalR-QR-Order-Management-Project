@@ -1,10 +1,5 @@
-﻿@model List<ResultOrderDetailByOrderIdWithProducts>
-
-@{
+﻿@{
     Layout = null;
-    int count = 0;
-    decimal basketTotalPrice = 0;
-    decimal serviceFee = 0;
 }
 
 <!DOCTYPE html>
@@ -19,6 +14,71 @@
     <br />
     <br />
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(() => {
+            var orderId = '@ViewData["OrderId"]';
+            var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7202/signalrhub").build();
+
+            $("#connstatus").text(connection.state);
+
+            connection.start().then(() => {
+                $("#connstatus").text(connection.state);
+
+                setInterval(() => {
+                    connection.invoke("SendBasketOrderDetailList", orderId);
+                }, 1000);
+            }).catch((error) => {console.log(error)});
+
+
+            connection.on("ReceiveOrderDetailList", function(basketItems) {
+                let tbodyContent = '';
+                let count = 0;
+                let basketTotalPrice = 0;
+                let serviceFee = 0;
+
+                if (basketItems.length === 0) {
+                    tbodyContent = `
+                        <tr>
+                            <td class="mt-2 alert alert-warning text-center" colspan="8">
+                                Bu sepette henüz bir ürün bulunmamaktadır.
+                            </td>
+                        </tr>`;
+                } else {
+                    basketItems.forEach(function(item) {
+                        count++;
+                        basketTotalPrice += item.totalPrice;
+
+                        tbodyContent += `
+                        <tr>
+                            <td class="align-middle">${count}</td>
+                            <td class="align-middle"><img src="${item.imageUrl}" width="65" height="65" /></td>
+                            <td class="align-middle">${item.productName}</td>
+                            <td class="align-middle">${item.unitPrice}</td>
+                            <td class="align-middle">${item.count}</td>
+                            <td class="align-middle">${item.totalPrice}</td>
+                            ${item.deliveryStatus === "Hazırlandı" ? `
+                                <td class="align-middle"></td>
+                                <td class="align-middle">Hazırlandı</td>
+                            ` : `
+                                <td class="align-middle btn-delete"><a href="/Baskets/DeleteBasket/${item.orderDetailID}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                                <td class="align-middle">${item.deliveryStatus}</td>
+                            `}
+                        </tr>`;
+                    });
+                    serviceFee = basketTotalPrice * 0.1;
+                }
+
+                $("#productPrice").text(basketTotalPrice.toFixed(2));
+                $("#servicePrice").text(serviceFee.toFixed(2) + " TL");
+                $("#totalPrice").text((basketTotalPrice + serviceFee).toFixed(2) + " TL");
+                $("tbody#basketItems").html(tbodyContent);
+            });
+        });
+    </script>
     <div class="container-fluid">
         <div class="row px-xl-5">
             <div class="col-12">
@@ -47,44 +107,8 @@
                             <th>Durum</th>
                         </tr>
                     </thead>
-                    @if (Model.Count() == 0)
-                    {
-                        <tbody class="align-middle">
-                            <tr>
-                                <td class="mt-2 alert alert-warning text-center" colspan="8">
-                                    Bu sepette henüz bir ürün bulunmamaktadır.
-                                </td>
-                            </tr>
-                        </tbody>
-                    }
-                    @foreach (var item in Model)
-                    {
-                        basketTotalPrice = Model.Sum(x => x.TotalPrice);
-                        serviceFee = basketTotalPrice * (decimal)0.1;
-                        count++;
 
-                        <tbody class="align-middle">
-                            <tr>
-                                <td class="align-middle">@count</td>
-                                <td class="align-middle"><img src="@item.ImageUrl" width="65" height="65" /></td>
-                                <td class="align-middle">@item.ProductName</td>
-                                <td class="align-middle">@item.UnitPrice</td>
-                                <td class="align-middle">@item.Count</td>
-                                <td class="align-middle">@item.TotalPrice</td>
-                                @if (item.DeliveryStatus == "Hazırlandı")
-                                {
-                                    <td class="align-middle"></td>
-                                    <td class="align-middle">Hazırlandı</td>
-
-                                }
-                                else
-                                {
-                                    <td class="align-middle btn-delete"><a href="/Baskets/DeleteBasket/@item.OrderDetailID" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
-                                    <td class="align-middle">@item.DeliveryStatus</td>
-                                }
-                            </tr>
-                        </tbody>
-                    }
+                    <tbody class="align-middle" id="basketItems"></tbody>
                 </table>
             </div>
             <div class="col-lg-4">
@@ -106,17 +130,17 @@
                     <div id="container" class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Sepet Tutarı</h6>
-                            <h6><span id="productPrice">@basketTotalPrice</span> TL</h6>
+                            <h6><span id="productPrice">0.00</span> TL</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Servis Ücreti</h6>
-                            <h6 id="servicePrice">@serviceFee.ToString("0.00") TL</h6>
+                            <h6 id="servicePrice">0.00 TL</h6>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Toplam Tutar</h5>
-                            <h5><span id="totalPrice">@((basketTotalPrice + serviceFee).ToString("0.00"))</span> TL</h5>
+                            <h5><span id="totalPrice">0.00 TL</span></h5>
                         </div>
                         <br />
                         <div class="alert alert-info">
@@ -125,7 +149,7 @@
                         <form id="orderForm" method="post" action="@Url.Action("GenerateCompletionCode", "Baskets")">
                             <button type="submit" class="btn btn-block btn-warning font-weight-bold my-3">Siparişi Tamamla</button>
                         </form>
-                    </>
+                    </div>
                 </div>
             </div>
         </div>
